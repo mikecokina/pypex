@@ -1,0 +1,11 @@
+env36
+.directory
+.idea
+virtualenv
+*-swp
+virtenv
+__pycache__
+*.log
+__main__.py
+.cache
+*.pickle
