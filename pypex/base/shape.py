@@ -26,12 +26,13 @@ class Shape2D(metaclass=ABCMeta):
     def intersection(self, shape):
         pass
 
-    def sort_clockwise(self):
+    def sort_clockwise(self, inplace=False):
         center = np.sum(self.hull, axis=0) / self.hull.shape[0]
         x, y = self.hull.T[self.x] - center[self.x], self.hull.T[self.y] - center[self.y]
         atan2 = np.arctan2(y, x)
         arr1inds = atan2.argsort()[::-1][:len(atan2)]
-        self.hull = self.hull[arr1inds[::-1]]
+        if inplace:
+            self.hull = self.hull[arr1inds[::-1]]
         return self.hull
 
     @staticmethod
