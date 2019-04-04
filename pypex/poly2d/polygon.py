@@ -1,4 +1,5 @@
 from pypex.base import shape
+from pypex.poly2d import sat
 
 
 class Polygon(shape.Shape2D):
@@ -9,7 +10,8 @@ class Polygon(shape.Shape2D):
         pass
 
     def intersects(self, poly):
-        pass
+        # todo: implement convexity test
+        return sat.intersects(self.hull, poly.hull)
 
     def intersection(self, poly):
         pass
