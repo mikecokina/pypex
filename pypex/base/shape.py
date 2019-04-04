@@ -31,9 +31,10 @@ class Shape2D(metaclass=ABCMeta):
         x, y = self.hull.T[self.x] - center[self.x], self.hull.T[self.y] - center[self.y]
         atan2 = np.arctan2(y, x)
         arr1inds = atan2.argsort()[::-1][:len(atan2)]
+        hull = self.hull[arr1inds[::-1]]
         if inplace:
-            self.hull = self.hull[arr1inds[::-1]]
-        return self.hull
+            self.hull = hull
+        return hull
 
     @staticmethod
     def polygon_validity_check(hull, _raise=True):
