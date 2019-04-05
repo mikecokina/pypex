@@ -7,8 +7,7 @@ overlap is handled as no intersection at all
 """
 import numpy as np
 from pypex.poly2d import projection
-
-PRECISION = 10
+from pypex.base.conf import ROUND_PRECISION as PRECISION
 
 
 def separating_axis_theorem(poly1, poly2):

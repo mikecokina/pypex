@@ -3,7 +3,7 @@ import unittest
 
 from numpy.testing import assert_array_equal
 from pypex.poly2d.polygon import Polygon
-from pypex.poly2d.sat import intersects
+from pypex.poly2d.intersection.sat import intersects
 
 parray = np.array([[0.5, 1.5], [0, 0], [1, 0], [0, 1], [1, 1]])
 
