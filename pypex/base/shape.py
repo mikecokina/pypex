@@ -10,6 +10,12 @@ class Shape2D(metaclass=ABCMeta):
         self._hull = np.array(hull)
         self.x, self.y = 0, 1
 
+    def __str__(self):
+        return "Poly ({}): [{}]".format(len(self.hull), ", ".join([str(v) for v in self.hull]))
+
+    def __repr__(self):
+        return "Poly ({}): [{}]".format(len(self.hull), ", ".join([str(v) for v in self.hull]))
+
     @property
     def hull(self):
         return self._hull
@@ -37,12 +43,21 @@ class Shape2D(metaclass=ABCMeta):
         return hull
 
     @staticmethod
-    def polygon_validity_check(hull, _raise=True):
+    def validity_check(hull, length, _raise=True):
+        length_test = (len(hull) == length) if length == 3 else (len(hull) > length)
         try:
-            if (len(hull) > 1) & (isinstance(hull, (Iterable, array))) & np.all(np.array([len(v) == 2 for v in hull])):
+            if length_test & (isinstance(hull, (Iterable, array))) & np.all(np.array([len(v) == 2 for v in hull])):
                 return True
         except TypeError:
             pass
         if _raise:
             raise ValueError("invalid 2D polygon shape")
         return False
+
+    @classmethod
+    def polygon_validity_check(cls, hull, _raise=True):
+        return cls.validity_check(hull, 1, _raise)
+
+    @classmethod
+    def triangle_validity_check(cls, hull, _raise=True):
+        return cls.validity_check(hull, 3, _raise)
