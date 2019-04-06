@@ -6,6 +6,7 @@ if will also return false if faces are just in touch
 overlap is handled as no intersection at all
 """
 import numpy as np
+
 from pypex.poly2d import projection
 from pypex.base.conf import ROUND_PRECISION as PRECISION
 

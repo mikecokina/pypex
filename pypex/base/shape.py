@@ -44,7 +44,7 @@ class Shape2D(metaclass=ABCMeta):
 
     @staticmethod
     def validity_check(hull, length, _raise=True):
-        length_test = (len(hull) == length) if length == 3 else (len(hull) > length)
+        length_test = (len(hull) == length) if length in [3, 2] else (len(hull) > length)
         try:
             if length_test & (isinstance(hull, (Iterable, array))) & np.all(np.array([len(v) == 2 for v in hull])):
                 return True
