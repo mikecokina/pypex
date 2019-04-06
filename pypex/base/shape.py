@@ -57,7 +57,3 @@ class Shape2D(metaclass=ABCMeta):
     @classmethod
     def polygon_validity_check(cls, hull, _raise=True):
         return cls.validity_check(hull, 1, _raise)
-
-    @classmethod
-    def triangle_validity_check(cls, hull, _raise=True):
-        return cls.validity_check(hull, 3, _raise)

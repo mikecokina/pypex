@@ -22,18 +22,6 @@ class Polygon(shape.Shape2D):
         pass
 
 
-class Triangle(shape.Shape2D):
-    def __init__(self, hull):
-        self.triangle_validity_check(hull, _raise=True)
-        super(Triangle, self).__init__(hull=hull)
-
-    def intersection(self, triangle):
-        pass
-
-    def intersects(self, triangle):
-        pass
-
-
 class Line(shape.Shape2D):
     def intersects(self, line):
         pass
