@@ -2,8 +2,6 @@ import unittest
 import numpy as np
 
 from pypex.poly2d.intersection import linter
-from pypex.poly2d.polygon import Polygon
-from pypex.poly2d.point import Point
 
 
 class LinterTestCase(unittest.TestCase):

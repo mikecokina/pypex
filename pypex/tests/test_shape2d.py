@@ -99,3 +99,17 @@ class Shape2DTestCase(unittest.TestCase):
                   [-.1, -.5],
                   [-.5, -.5]]]
         self.assertFalse(intersects(faces[0], faces[1]))
+
+    def test_is_convex_positive(self):
+        hull = [[-1, -1], [0, -1], [1, 0], [1, 2], [1.5, 0.5]]
+        polygon = Polygon(hull)
+        self.assertTrue(polygon.is_convex())
+
+        hull = [[-1, -1], [1, -1], [1, 0]]
+        polygon = Polygon(hull)
+        self.assertTrue(polygon.is_convex())
+
+    def test_is_convex_negative(self):
+        hull = [[-1, -1], [1, -1], [0.5, -0.5], [1, 0]]
+        polygon = Polygon(hull)
+        self.assertFalse(polygon.is_convex())
