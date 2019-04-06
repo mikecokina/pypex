@@ -111,6 +111,5 @@ class Shape2DTestCase(unittest.TestCase):
 
     def test_is_convex_negative(self):
         hull = [[-1, -1], [1, -1], [0.5, -0.5], [1, 0]]
-        with self.assertRaises(Exception) as context:
-            Polygon(hull)
-        self.assertTrue('convex' in str(context.exception))
+        polygon = Polygon(hull)
+        self.assertFalse(polygon.is_convex())

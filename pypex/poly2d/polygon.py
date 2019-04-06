@@ -7,9 +7,9 @@ from pypex.poly2d.intersection import sat
 class Polygon(shape.Shape2D):
     def __init__(self, hull):
         super(Polygon, self).__init__(hull=hull)
+
+        # todo: it works just for convex polygons
         self.sort_clockwise(inplace=True)
-        if not self.is_convex():
-            raise ValueError("given polygon is not convex")
 
     def is_convex(self):
         """
@@ -29,7 +29,7 @@ class Polygon(shape.Shape2D):
 
         :return: bool
         """
-
+        # todo: this method makes no sense here, 'till sort clokwise is not capable to sort non convex corners
         signs = list()
         for i in range(-2, len(self.hull) - 2):
             v1, v2 = self.hull[i] - self.hull[i+1], self.hull[i+1] - self.hull[i+2]
