@@ -8,6 +8,8 @@ class Polygon(shape.Shape2D):
     def __init__(self, hull):
         super(Polygon, self).__init__(hull=hull)
         self.sort_clockwise(inplace=True)
+        if not self.is_convex():
+            raise ValueError("given polygon is not convex")
 
     def is_convex(self):
         """
