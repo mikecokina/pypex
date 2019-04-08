@@ -3,6 +3,7 @@ import unittest
 
 from numpy.testing import assert_array_equal
 from pypex.poly2d.polygon import Polygon
+from pypex.poly2d.line import Line
 from pypex.poly2d.intersection.sat import intersects
 
 parray = np.array([[0.5, 1.5], [0, 0], [1, 0], [0, 1], [1, 1]])
@@ -27,7 +28,8 @@ class Shape2DTestCase(unittest.TestCase):
                  [[0.0, 0.0],
                   [1.0, 0.4],
                   [0.0, -.7]]]
-        self.assertFalse(intersects(faces[0], faces[1]))
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=True))
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=False))
 
         # not intersection example:
         faces = [[[0.0, 0.5],
@@ -36,7 +38,8 @@ class Shape2DTestCase(unittest.TestCase):
                  [[0.0, 0.0],
                   [1.0, 0.3],
                   [0.0, 0.3]]]
-        self.assertFalse(intersects(faces[0], faces[1]))
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=True))
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=False))
 
     def test_sat_intersection_positive_case(self):
         faces = [[[0.0, 0.5],
@@ -45,7 +48,8 @@ class Shape2DTestCase(unittest.TestCase):
                  [[0.0, 2.0],
                   [1.0, 0.5],
                   [0.0, 0.5]]]
-        self.assertTrue(intersects(faces[0], faces[1]))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=False))
 
         faces = [[[0.0, 0.0],
                   [2.0, 0.0],
@@ -53,7 +57,8 @@ class Shape2DTestCase(unittest.TestCase):
                  [[-.9, -.9],
                   [-3., 3.5],
                   [9.5, 1.0]]]
-        self.assertTrue(intersects(faces[0], faces[1]))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=False))
 
         faces = [[[0.0, 0.5],
                   [1.0, 0.5],
@@ -63,7 +68,8 @@ class Shape2DTestCase(unittest.TestCase):
                   [4.0, 0.5],
                   [4.0, 3.0],
                   [0.5, 3.0]]]
-        self.assertTrue(intersects(faces[0], faces[1]))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=False))
 
         faces = [[[0.0, 0.5],
                   [1.0, 0.5],
@@ -72,24 +78,18 @@ class Shape2DTestCase(unittest.TestCase):
                  [[0.5, 0.5],
                   [4.0, 0.5],
                   [4.0, 3.0]]]
-        self.assertTrue(intersects(faces[0], faces[1]))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=False))
 
-    def test_sat_intersection_overlap_case(self):
-        faces = [[[0.0, 0.5],
-                  [1.0, 0.5],
-                  [0.0, 1.0]],
-                 [[0.0, 0.0],
-                  [1.0, 0.4],
-                  [0.0, -.7]]]
-        self.assertFalse(intersects(faces[0], faces[1]))
-
+    def test_sat_intersection_onedge_case(self):
         faces = [[[0.0, 0.0],
                   [1.0, 0.0],
                   [0.0, 1.0]],
                  [[-1., 1.0],
                   [0.0, 1.0],
                   [0.0, 0.0]]]
-        self.assertFalse(intersects(faces[0], faces[1]))
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=False))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
 
     def test_sat_intersection_touch_case(self):
         faces = [[[0.0, 0.0],
@@ -98,4 +98,6 @@ class Shape2DTestCase(unittest.TestCase):
                  [[0.0, 0.0],
                   [-.1, -.5],
                   [-.5, -.5]]]
-        self.assertFalse(intersects(faces[0], faces[1]))
+
+        self.assertFalse(intersects(faces[0], faces[1], in_touch=False))
+        self.assertTrue(intersects(faces[0], faces[1], in_touch=True))

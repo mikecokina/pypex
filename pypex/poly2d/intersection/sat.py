@@ -58,8 +58,10 @@ def separating_axis_theorem(poly1, poly2, in_touch=False):
         projection_edge.sort(key=lambda x: x[0])
 
         # if intervals connected in point or separated return True
-        eval_method = np.greater_equal if in_touch else np.greater
-        return eval_method(projection_edge[0][1], projection_edge[1][0])
+        eval_method = np.less if in_touch else np.less_equal
+        if eval_method(projection_edge[0][1], projection_edge[1][0]):
+            return True
+    return False
 
 
 def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
@@ -91,4 +93,4 @@ def intersects(poly1, poly2, in_touch=False):
     """
     if (len(poly1) == 2) and (len(poly2) == 2):
         return separating_axis_theorem_line_adapt(poly1, poly2, in_touch)
-    return separating_axis_theorem(poly1, poly2, in_touch)
+    return not separating_axis_theorem(poly1, poly2, in_touch)
