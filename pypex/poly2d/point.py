@@ -1,7 +1,5 @@
 import numpy as np
 
-from pypex.poly2d import polygon as poly
-
 
 def _line_side(p1, p2, a, b):
     """
@@ -60,10 +58,25 @@ class Point(object):
         self.y = y
 
     def __str__(self):
-        return "[{}, {}]".format(self.x, self.y)
+        return "Point [{}, {}]".format(self.x, self.y)
 
     def __repr__(self):
-        return "[{}, {}]".format(self.x, self.y)
+        return "Point [{}, {}]".format(self.x, self.y)
 
-    def is_inside_polygon(self, polygon: poly.Polygon):
+    def __eq__(self, other):
+        return (other.x == self.x) & (other.y == self.y)
+
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Point(self.x - other.x, self.y - other.y)
+
+    def is_inside_polygon(self, polygon):
         return is_point_in_polygon(self, polygon)
+
+    def to_list(self):
+        return [self.x, self.y]
+
+    def to_array(self):
+        return np.array(self.to_list())
