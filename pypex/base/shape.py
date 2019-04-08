@@ -8,7 +8,7 @@ class Shape2D(metaclass=ABCMeta):
     def __init__(self, hull):
         self.polygon_validity_check(hull=hull, _raise=True)
         self._hull = np.array(hull)
-        self.x, self.y = 0, 1
+        self.xi, self.yi = 0, 1
 
     def __str__(self):
         return "Poly ({}): [{}]".format(len(self.hull), ", ".join([str(v) for v in self.hull]))
@@ -23,7 +23,7 @@ class Shape2D(metaclass=ABCMeta):
     @hull.setter
     def hull(self, hull):
         self._hull = hull
-
+        
     @abstractmethod
     def intersects(self, shape):
         pass
@@ -34,7 +34,7 @@ class Shape2D(metaclass=ABCMeta):
 
     def sort_clockwise(self, inplace=False):
         center = np.sum(self.hull, axis=0) / self.hull.shape[0]
-        x, y = self.hull.T[self.x] - center[self.x], self.hull.T[self.y] - center[self.y]
+        x, y = self.hull.T[self.xi] - center[self.xi], self.hull.T[self.yi] - center[self.yi]
         atan2 = np.arctan2(y, x)
         arr1inds = atan2.argsort()[::-1][:len(atan2)]
         hull = self.hull[arr1inds[::-1]]
