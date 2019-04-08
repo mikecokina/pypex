@@ -11,15 +11,19 @@ from pypex.poly2d import projection
 from pypex.base.conf import ROUND_PRECISION as PRECISION
 
 
-def separating_axis_theorem(poly1, poly2):
+def separating_axis_theorem(poly1, poly2, in_touch=False):
     """
 
+    :param in_touch: bool
     :param poly1: numpy.array;
     :param poly2: numpy.array
     :return: bool
     """
     # number of vertices in each polygon
     nv1, nv2 = len(poly1), len(poly2)
+
+    if (nv1 < 3) or (nv2 < 3):
+        raise ValueError("invalid polygon shape, supported at least polygon with 3 corners")
 
     edges = np.concatenate(([[poly1[i], poly1[i + 1]] for i in range(-1, nv1 - 1)],
                             [[poly2[i], poly2[i + 1]] for i in range(-1, nv2 - 1)]), axis=0)
@@ -54,15 +58,37 @@ def separating_axis_theorem(poly1, poly2):
         projection_edge.sort(key=lambda x: x[0])
 
         # if intervals connected in point or separated return True
-        if projection_edge[0][1] <= projection_edge[1][0]:
-            return True
+        eval_method = np.greater_equal if in_touch else np.greater
+        return eval_method(projection_edge[0][1], projection_edge[1][0])
 
 
-def intersects(poly1, poly2):
+def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
     """
 
+    :param in_touch: bool
+    :param line1: numpy.array
+    :param line2: numpy.array
+    :return: bool
+    """
+    projection_edge_x = [line1.T[0], line2.T[0]]
+    projection_edge_y = [line1.T[1], line2.T[1]]
+
+    projection_edge_x.sort(key=lambda x: x[0])
+    projection_edge_y.sort(key=lambda x: x[0])
+
+    eval_method = np.greater_equal if in_touch else np.greater
+    return eval_method(projection_edge_x[0][1], projection_edge_x[1][0]) | \
+        eval_method(projection_edge_y[0][1], projection_edge_y[1][0])
+
+
+def intersects(poly1, poly2, in_touch=False):
+    """
+
+    :param in_touch: bool
     :param poly1: numpy.array; convex polygon
     :param poly2: numpy.array; convex polygon
     :return: bool
     """
-    return not separating_axis_theorem(poly1, poly2)
+    if (len(poly1) == 2) and (len(poly2) == 2):
+        return separating_axis_theorem_line_adapt(poly1, poly2, in_touch)
+    return separating_axis_theorem(poly1, poly2, in_touch)
