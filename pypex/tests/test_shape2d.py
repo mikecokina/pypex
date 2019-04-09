@@ -101,3 +101,24 @@ class Shape2DTestCase(unittest.TestCase):
 
         self.assertFalse(intersects(faces[0], faces[1], in_touch=False))
         self.assertTrue(intersects(faces[0], faces[1], in_touch=True))
+
+    def test_line_sat_intersect(self):
+        line1 = np.array([[-1., -1.], [0.3, 0.3]])
+        line2 = np.array([[0.2, 0.2], [1.3, 1.3]])
+        self.assertTrue(intersects(line1, line2, in_touch=True))
+        self.assertTrue(intersects(line1, line2, in_touch=False))
+
+        line1 = np.array([[-1., -1.], [0.3, 0.3]])
+        line2 = np.array([[0.3, 0.3], [1.3, 1.3]])
+        self.assertTrue(intersects(line1, line2, in_touch=True))
+        self.assertFalse(intersects(line1, line2, in_touch=False))
+
+        line1 = np.array([[1., 1.], [1., 2.]])
+        line2 = np.array([[1., 2.], [1., 13.]])
+        self.assertTrue(intersects(line1, line2, in_touch=True))
+        self.assertFalse(intersects(line1, line2, in_touch=False))
+
+        line1 = np.array([[1., 1.], [3.1, 1.]])
+        line2 = np.array([[3.2, 1.], [5., 1.]])
+        self.assertFalse(intersects(line1, line2, in_touch=True))
+        self.assertFalse(intersects(line1, line2, in_touch=False))

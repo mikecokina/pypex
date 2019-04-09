@@ -66,25 +66,35 @@ def separating_axis_theorem(poly1, poly2, in_touch=False):
 
 def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
     """
+    test overlap of segments that are situated on the same line
 
     :param in_touch: bool
     :param line1: numpy.array
     :param line2: numpy.array
     :return: bool
     """
-    projection_edge_x = [line1.T[0], line2.T[0]]
-    projection_edge_y = [line1.T[1], line2.T[1]]
+    tangent = (line1[1] - line1[0]) / np.linalg.norm(line1[1] - line1[0])
+    normal = -tangent[1], tangent[0]
 
-    projection_edge_x.sort(key=lambda x: x[0])
-    projection_edge_y.sort(key=lambda x: x[0])
+    projection_line1 = np.array([projection.cartesian_to_vectors_defined(
+        tangent, normal, projection.projection(vertex, tangent)) for vertex in line1])
+    projection_line2 = np.array([projection.cartesian_to_vectors_defined(
+        tangent, normal, projection.projection(vertex, tangent)) for vertex in line2])
+    projection_x = [projection_line1.T[0], projection_line2.T[0]]
+    projection_x.sort(key=lambda x: x[0])
 
-    eval_method = np.greater_equal if in_touch else np.greater
-    return eval_method(projection_edge_x[0][1], projection_edge_x[1][0]) | \
-        eval_method(projection_edge_y[0][1], projection_edge_y[1][0])
+    eval_method = np.less if in_touch else np.less_equal
+    if eval_method(projection_x[0][1], projection_x[1][0]):
+        return True
+    return False
 
 
 def intersects(poly1, poly2, in_touch=False):
     """
+    Resolve whether two objects intersetcs.
+
+    In case of two segments it will resolve correctly only segments situated on tme same line.
+    It is suppose to resolve whether these two lines are separated or overlapped/touched in point.
 
     :param in_touch: bool
     :param poly1: numpy.array; convex polygon
@@ -92,5 +102,5 @@ def intersects(poly1, poly2, in_touch=False):
     :return: bool
     """
     if (len(poly1) == 2) and (len(poly2) == 2):
-        return separating_axis_theorem_line_adapt(poly1, poly2, in_touch)
+        return not separating_axis_theorem_line_adapt(poly1, poly2, in_touch)
     return not separating_axis_theorem(poly1, poly2, in_touch)
