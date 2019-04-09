@@ -1,0 +1,58 @@
+    #     return
+    #
+
+def sort_segments_by_inline_position(points, inline_position):
+    """
+    Points contain flat structure of segment1 and segment2. Points in segments might be not ordered
+    what should cause a problem in overlap intersection decision method
+
+    :param points: nunpy.array
+    :param inline_position: numpy.array
+    :return: numpy.array, numpy.array
+    """
+    inline = np.reshape(inline_position, (2, 2))
+    pos1, pos2 = inline[0], inline[1]
+    arr1inds = np.array([pos1.argsort(), pos2.argsort() + 2]).flatten()
+    inline_position = np.array(inline_position).flatten()[arr1inds]
+    points = np.array(points)[arr1inds]
+    return points, inline_position
+
+
+def overlap_intersection_points(segment1, segment2):
+    # fixme/todo: seems like to strong brute force; find out better solution
+    segments = [segment1, segment2]
+    points = [Point(point[0], point[1]) for segment in segments for point in segment]
+
+    tangent = points[1] - points[0]
+    normal = Point(-tangent.y, tangent.x)
+    projected_to_self_line = [projection.cartesian_to_vectors_defined(
+        tangent.to_array(),
+        normal.to_array(),
+        point.to_array()
+    ) for point in points]
+
+    projected_to_self_line = np.array(projected_to_self_line).T[0]
+
+
+    print(projected_to_self_line, points)
+    points, projected_to_self_line = sort_segments_by_inline_position(points, projected_to_self_line)
+
+
+    print(projected_to_self_line, points)
+    # if points[1] == points[2]:
+    #     return [points[1]]
+    # if (points[0] == points[2]) & (points[1] == points[3]):
+    #     return [points[0], points[1]]
+
+
+
+    # if projected_to_self_line[0] == projected_to_self_line[2]:
+    #     return [points[0], points[1]]
+    # if (projected_to_self_line[0] < projected_to_self_line[2]) & \
+    #         (projected_to_self_line[1] > projected_to_self_line[3]):
+    #     return [points[2], points[3]]
+    # if projected_to_self_line[2] < projected_to_self_line[1] < projected_to_self_line[3]:
+    #     return [points[2], points[1]]
+    #
+    # if points[1] == points[3]:
+    #     return

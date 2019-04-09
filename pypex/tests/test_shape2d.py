@@ -4,6 +4,7 @@ import unittest
 from numpy.testing import assert_array_equal
 from pypex.poly2d.polygon import Polygon
 from pypex.poly2d.line import Line
+from pypex.poly2d.point import Point
 from pypex.poly2d.intersection.sat import intersects
 
 parray = np.array([[0.5, 1.5], [0, 0], [1, 0], [0, 1], [1, 1]])
@@ -122,3 +123,59 @@ class Shape2DTestCase(unittest.TestCase):
         line2 = np.array([[3.2, 1.], [5., 1.]])
         self.assertFalse(intersects(line1, line2, in_touch=True))
         self.assertFalse(intersects(line1, line2, in_touch=False))
+
+
+class Line2DTestCase(unittest.TestCase):
+    def test_intersects_negative(self):
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[2, 0], [4, 0]]))
+        self.assertFalse(line1.intersects(line2))
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1, 0], [4, 0]]))
+        self.assertFalse(line1.intersects(line2, in_touch=True))
+        self.assertFalse(line1.intersects(line2, in_touch=False))
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1, 0], [4, 1]]))
+        self.assertFalse(line1.intersects(line2, in_touch=False))
+
+    def test_intersects_positive(self):
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[0.5, -0.5], [0.5, 1]]))
+        self.assertTrue(line1.intersects(line2))
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1.0, 0.0], [0.5, 1.]]))
+        self.assertTrue(line1.intersects(line2, in_touch=True))
+
+    def test_intersection_positive(self):
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[0.5, -0.5], [0.5, 1]]))
+        obtained = line1.intersection(line2)
+        expected = Point(0.5, 0)
+        self.assertTrue(expected == obtained)
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1.0, 0.0], [0.5, 1.]]))
+        obtained = line1.intersection(line2, in_touch=True)
+        expected = Point(1, 0)
+        self.assertTrue(expected == obtained)
+
+    def test_intersection_negative(self):
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[2, 0], [4, 0]]))
+        obtained = line1.intersection(line2)
+        self.assertIsNone(obtained)
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1, 0], [4, 0]]))
+        obtained = line1.intersection(line2, in_touch=True)
+        self.assertIsNone(obtained)
+        obtained = line1.intersection(line2, in_touch=False)
+        self.assertIsNone(obtained)
+
+        line1 = Line(np.array([[0, 0], [1, 0]]))
+        line2 = Line(np.array([[1, 0], [4, 1]]))
+        obtained = line1.intersection(line2, in_touch=False)
+        self.assertIsNone(obtained)
