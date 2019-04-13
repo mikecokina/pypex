@@ -1,11 +1,14 @@
 import numpy as np
+
 from abc import ABCMeta, abstractmethod
 from collections import Iterable
 from numpy import array
+from pypex.poly2d.point import Point
 
 
 class Shape2D(metaclass=ABCMeta):
     def __init__(self, hull):
+        hull = self.normalize_hull(hull)
         self.polygon_validity_check(hull=hull, _raise=True)
         self._hull = np.array(hull)
         self.xi, self.yi = 0, 1
@@ -16,6 +19,10 @@ class Shape2D(metaclass=ABCMeta):
     def __repr__(self):
         return "Poly ({}): [{}]".format(len(self.hull), ", ".join([str(v) for v in self.hull]))
 
+    @staticmethod
+    def normalize_hull(hull):
+        return np.array([vertex.to_array() if isinstance(vertex, Point) else vertex for vertex in hull])
+
     @property
     def hull(self):
         return self._hull
@@ -25,7 +32,7 @@ class Shape2D(metaclass=ABCMeta):
         self._hull = hull
         
     @abstractmethod
-    def intersects(self, shape):
+    def intersects(self, shape, **kwargs):
         pass
 
     @abstractmethod
