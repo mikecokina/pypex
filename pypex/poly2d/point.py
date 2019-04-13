@@ -1,5 +1,7 @@
 import numpy as np
 
+from pypex.base.conf import ROUND_PRECISION as PRECISION
+
 
 def _line_side(p1, p2, a, b):
     """
@@ -52,6 +54,22 @@ def is_point_in_polygon(point, polygon):
     return result
 
 
+class _Point(object):
+    def __init__(self, i, x, y):
+        self.i = i
+        self.x = x
+        self.y = y
+
+    def __key(self):
+        return self.x, self.y
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    def __eq__(self, other):
+        return (other.x == self.x) & (other.y == self.y)
+
+
 class Point(object):
     def __init__(self, x, y):
         self.x = x
@@ -71,6 +89,12 @@ class Point(object):
 
     def __sub__(self, other):
         return Point(self.x - other.x, self.y - other.y)
+
+    @staticmethod
+    def set(points, tol=PRECISION):
+        _points = [_Point(i, round(point.x, tol), round(point.y, tol)) for i, point in enumerate(points)]
+        indices = [_point.i for _point in set(_points)]
+        return np.array(points)[indices]
 
     def is_inside_polygon(self, polygon):
         return is_point_in_polygon(self, polygon)
