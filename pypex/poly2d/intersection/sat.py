@@ -11,9 +11,10 @@ from pypex.poly2d import projection
 from pypex.base.conf import ROUND_PRECISION as PRECISION
 
 
-def separating_axis_theorem(poly1, poly2, in_touch=False):
+def separating_axis_theorem(poly1, poly2, in_touch=False, tol=PRECISION):
     """
 
+    :param tol: int
     :param in_touch: bool
     :param poly1: numpy.array;
     :param poly2: numpy.array
@@ -49,10 +50,10 @@ def separating_axis_theorem(poly1, poly2, in_touch=False):
         projection_poly1_x, projection_poly2_x = projection_poly1.T[0], projection_poly2.T[0]
 
         # maximal length projected of each face
-        projection_edge1, projection_edge2 = [round(projection_poly1_x.min(), PRECISION),
-                                              round(projection_poly1_x.max(), PRECISION)], \
-                                             [round(projection_poly2_x.min(), PRECISION),
-                                              round(projection_poly2_x.max(), PRECISION)]
+        projection_edge1, projection_edge2 = [round(projection_poly1_x.min(), tol),
+                                              round(projection_poly1_x.max(), tol)], \
+                                             [round(projection_poly2_x.min(), tol),
+                                              round(projection_poly2_x.max(), tol)]
 
         projection_edge = [projection_edge1, projection_edge2]
         projection_edge.sort(key=lambda x: x[0])
@@ -64,10 +65,11 @@ def separating_axis_theorem(poly1, poly2, in_touch=False):
     return False
 
 
-def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
+def separating_axis_theorem_line_adapt(line1, line2, in_touch=False, tol=PRECISION):
     """
     test overlap of segments that are situated on the same line
 
+    :param tol: int
     :param in_touch: bool
     :param line1: numpy.array
     :param line2: numpy.array
@@ -80,7 +82,7 @@ def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
         tangent, normal, projection.projection(vertex, tangent)) for vertex in line1])
     projection_line2 = np.array([projection.cartesian_to_vectors_defined(
         tangent, normal, projection.projection(vertex, tangent)) for vertex in line2])
-    projection_x = [projection_line1.T[0], projection_line2.T[0]]
+    projection_x = [np.round(projection_line1.T[0], tol), np.round(projection_line2.T[0], tol)]
     projection_x.sort(key=lambda x: x[0])
 
     eval_method = np.less if in_touch else np.less_equal
@@ -89,18 +91,19 @@ def separating_axis_theorem_line_adapt(line1, line2, in_touch=False):
     return False
 
 
-def intersects(poly1, poly2, in_touch=False):
+def intersects(poly1, poly2, in_touch=False, tol=PRECISION):
     """
     Resolve whether two objects intersetcs.
 
     In case of two segments it will resolve correctly only segments situated on tme same line.
     It is suppose to resolve whether these two lines are separated or overlapped/touched in point.
 
+    :param tol: int; consider as same up to `tol` decimal numbers
     :param in_touch: bool
     :param poly1: numpy.array; convex polygon
     :param poly2: numpy.array; convex polygon
     :return: bool
     """
     if (len(poly1) == 2) and (len(poly2) == 2):
-        return not separating_axis_theorem_line_adapt(poly1, poly2, in_touch)
-    return not separating_axis_theorem(poly1, poly2, in_touch)
+        return not separating_axis_theorem_line_adapt(poly1, poly2, in_touch, tol)
+    return not separating_axis_theorem(poly1, poly2, in_touch, tol)

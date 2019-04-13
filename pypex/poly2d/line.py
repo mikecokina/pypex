@@ -1,5 +1,6 @@
 from pypex.base import shape
 from pypex.poly2d.intersection import linter
+from pypex.base.conf import ROUND_PRECISION as PRECISION
 
 
 class Line(shape.Shape2D):
@@ -12,9 +13,10 @@ class Line(shape.Shape2D):
     def __repr__(self):
         return "Line: [{}]".format(", ".join([str(v) for v in self.hull]))
 
-    def intersects(self, line, _full=False, in_touch=False):
+    def intersects(self, line, _full=False, in_touch=False, tol=PRECISION):
         """
 
+        :param tol: int; consider as same up to `tol` decimal numbers
         :param in_touch: bool
         :param line: pypex.poly2d.line.Line
         :param _full: bool; define whether return full output or not
@@ -26,15 +28,16 @@ class Line(shape.Shape2D):
             return intersection
         return intersection[1] and (intersection[4] in "INTERSECT")
 
-    def intersection(self, line, in_touch=False):
+    def intersection(self, line, in_touch=False, tol=PRECISION):
         """
         Find intersection point of two lines if exists.
 
+        :param tol: int
         :param in_touch: bool
         :param line: pypex.poly2d.line.Line
         :return: pypex.poly2d.point.Point / None
         """
-        intersection = self.intersects(line, _full=True, in_touch=in_touch)
+        intersection = self.intersects(line, _full=True, in_touch=in_touch, tol=tol)
         intersect = intersection[1] and (intersection[4] in "INTERSECT")
         if not intersect:
             return None
