@@ -4,7 +4,7 @@ from pypex.poly2d import polygon
 
 def main():
     pnt = point.Point(0.3, 0.3)
-    poly = polygon.Polygon([[0.0, 0.0], [1.0, 0.0], [1.0, 0.0], [1.0, 1.0]])
+    poly = polygon.Polygon([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
     in_poly = pnt.is_inside_polygon(poly)
     print("{} is inside polygon: {}".format(pnt, in_poly))
 
