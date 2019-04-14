@@ -179,3 +179,126 @@ class Line2DTestCase(unittest.TestCase):
         line2 = Line(np.array([[1, 0], [4, 1]]))
         obtained = line1.intersection(line2, in_touch=False)
         self.assertIsNone(obtained)
+
+
+class PolygonIntersectionObjectTestCase(unittest.TestCase):
+    @staticmethod
+    def test_polygons_intersection_positive_standard():
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.5, 0.2],
+                  [0.0, -1.5],
+                  [1.3, -1.3]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+
+        expected = [[0.441, 0.], [0.607, 0.], [0.5, 0.2]]
+        obtained = [[round(p[0], 3), round(p[1], 3)] for p in poly3.hull]
+        assert_array_equal(expected, obtained)
+
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.5, 0.2],
+                  [0.7, 0.3],
+                  [0.6, -1.8]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+
+        expected = [[0.51, 0.], [0.686, 0.], [0.7, 0.3], [0.5, 0.2]]
+        obtained = [[round(p[0], 3), round(p[1], 3)] for p in poly3.hull]
+        assert_array_equal(expected, obtained)
+
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.0, 0.5],
+                  [0.9, 0.8],
+                  [0.6, -1.8]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+
+        expected = [[0.086, 0.171], [0.130, 0.], [0.808, 0.],
+                    [0.844, 0.312], [0.643, 0.714], [0.3, 0.6]]
+        obtained = [[round(p[0], 3), round(p[1], 3)] for p in poly3.hull]
+        assert_array_equal(expected, obtained)
+
+    def test_polygons_intersection_positive_negative(self):
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.5, -0.2],
+                  [0.0, -1.5],
+                  [1.3, -1.3]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+        self.assertIsNone(poly3)
+
+        faces = [[[0.0, 0.0],
+                  [0.0, 1.0],
+                  [1.0, 1.0],
+                  [1.0, 0.0]],
+                 [[1.0, 0.0],
+                  [2.0, 0.0],
+                  [2.0, 1.0],
+                  [1.0, 1.0]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+        self.assertIsNone(poly3)
+
+    def test_polygons_intersection_positive_overlap(self):
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.5, 0.2],
+                  [0.3, 0.5],
+                  [0.6, 0.6]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+        self.assertTrue(poly2 == poly3)
+
+    def test_polygons_intersection_positive_patologic(self):
+        # all equal
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]],
+                 [[0.0, 0.0],
+                  [1.0, 0.0],
+                  [0.5, 1.0]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+        self.assertTrue(poly1 == poly3)
+
+        # some edges in overlap
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [1.0, 1.0],
+                  [0.0, 1.0]],
+
+                 [[0.5, 0.0],
+                  [1.5, 0.0],
+                  [1.5, 2.0],
+                  [0.5, 2.0]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        poly3 = poly1.intersection(poly2)
+
+        expected = [[0.5, 0.], [1., 0.], [1., 1.], [0.5, 1.]]
+        obtained = [[round(p[0], 3), round(p[1], 3)] for p in poly3.hull]
+        assert_array_equal(obtained, expected)

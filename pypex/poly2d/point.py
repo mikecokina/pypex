@@ -39,11 +39,15 @@ def same_side(p1, p2, a, b):
 
 def is_point_in_polygon(point, polygon):
     """
+    test wether point lie in polygon
 
     :param point: pypex.poly2d.point.Point
     :param polygon: pypex.poly2d.polygon.Polygon
     :return:
     """
+    if len(polygon) < 3:
+        raise ValueError("invalid polygon shape, expected at least 3 corners polygon")
+
     polygon = polygon.sort_clockwise(inplace=False)
     point = np.array([point.x, point.y])
     result = True
@@ -92,15 +96,36 @@ class Point(object):
 
     @staticmethod
     def set(points, tol=PRECISION):
+        """
+        Naive implementaion `set` like function in python.
+        This method relly on tolerance. Points are same up to supplied tolerance.
+
+        :param points: pypex.poly2d.point.Point
+        :param tol: int
+        :return: numpy.arra; list of Point instances
+        """
         _points = [_Point(i, round(point.x, tol), round(point.y, tol)) for i, point in enumerate(points)]
         indices = [_point.i for _point in set(_points)]
         return np.array(points)[indices]
 
     def is_inside_polygon(self, polygon):
+        """
+        Test whether current (`self`) Point is inside or outside of polygon
+        :param polygon: pypex.poly2d.point.Point
+        :return: bool
+        """
         return is_point_in_polygon(self, polygon)
 
     def to_list(self):
+        """
+        convert Point to list
+        :return: list
+        """
         return [self.x, self.y]
 
     def to_array(self):
+        """
+        Convert Point to numpy.array
+        :return: numpy.array
+        """
         return np.array(self.to_list())

@@ -7,11 +7,22 @@ from pypex.poly2d.point import Point
 
 
 class Shape2D(metaclass=ABCMeta):
+    """
+    Convex 2D Shape
+    """
     def __init__(self, hull):
         hull = self.normalize_hull(hull)
         self.polygon_validity_check(hull=hull, _raise=True)
         self._hull = np.array(hull)
         self.xi, self.yi = 0, 1
+
+    def __len__(self):
+        return len(self.hull)
+
+    def __eq__(self, other):
+        if len(other) != len(self):
+            return False
+        return all([Point(*self.hull[i]) == Point(*other.hull[i]) for i in range(len(self))])
 
     def __str__(self):
         return "Poly ({}): [{}]".format(len(self.hull), ", ".join([str(v) for v in self.hull]))
@@ -21,6 +32,12 @@ class Shape2D(metaclass=ABCMeta):
 
     @staticmethod
     def normalize_hull(hull):
+        """
+        Convert definition of points to  normal form (to numpy.array).
+
+        :param hull: Iterable; iterable of points
+        :return: numpy.array
+        """
         return np.array([vertex.to_array() if isinstance(vertex, Point) else vertex for vertex in hull])
 
     @property
@@ -40,6 +57,12 @@ class Shape2D(metaclass=ABCMeta):
         pass
 
     def sort_clockwise(self, inplace=False):
+        """
+        Sort points of convex polygon in clokwise order
+
+        :param inplace: bool; replace current polygon hull with new obtained values
+        :return: numpy.array
+        """
         center = np.sum(self.hull, axis=0) / self.hull.shape[0]
         x, y = self.hull.T[self.xi] - center[self.xi], self.hull.T[self.yi] - center[self.yi]
         atan2 = np.arctan2(y, x)
