@@ -15,13 +15,15 @@ class Line(shape.Shape2D):
 
     def intersects(self, line, _full=False, in_touch=False, tol=PRECISION):
         """
+        Figure out whether two line are in intersection or not
 
-        :param tol: int; consider as same up to `tol` decimal numbers
+        :param tol: int; consider as same up to 'tol' decimal numbers
         :param in_touch: bool
         :param line: pypex.poly2d.line.Line
         :param _full: bool; define whether return full output or not
-        :return: bool/tuple
+        :return: bool or tuple
         """
+
         # fixme: return dual type is probably not a good idea
         intersection = linter.intersection(self.hull[0], self.hull[1], line.hull[0], line.hull[1], in_touch)
         if _full:
@@ -35,8 +37,9 @@ class Line(shape.Shape2D):
         :param tol: int
         :param in_touch: bool
         :param line: pypex.poly2d.line.Line
-        :return: pypex.poly2d.point.Point / None
+        :return: pypex.poly2d.point.Point or None
         """
+
         intersection = self.intersects(line, _full=True, in_touch=in_touch, tol=tol)
         intersect = intersection[1] and (intersection[4] in "INTERSECT")
         if not intersect:

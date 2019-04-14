@@ -7,25 +7,29 @@ from pypex.poly2d.point import Point
 
 def intersection(p1, p2, p3, p4, in_touch=False):
     """
-    defs:
-          x1, y1 = p1 + u * (p2 - p1) = p1 + u * dp1
-          x2, y2 = a + v * (b - a) = a + v * dp2
-          dp1 = p2 - p1 = (p2_x - p1_x, p2_y - p1_y)
-          dp2 = pt4 - pt3 = (pt4_x - pt3_x, pt4_y - pt3_y)
+    defs::
 
-    intersection:
-          x1, y1 = x2, y2
-          p1 + u * dp1 = a + v * dp2
+        x1, y1 = p1 + u * (p2 - p1) = p1 + u * dp1
+        x2, y2 = a + v * (b - a) = a + v * dp2
+        dp1 = p2 - p1 = (p2_x - p1_x, p2_y - p1_y)
+        dp2 = pt4 - pt3 = (pt4_x - pt3_x, pt4_y - pt3_y)
 
-          in coo:
-          p1_x + u * dp1_x = pt3_x + v * dp2_x
-          p1_y + u * dp1_y = pt3_y + v * dp2_y
+    intersection::
 
-          variables: u, v
-          solution:
-          d = (dp1_x * dp2_y) - (dp1_y * dp2_x)
-          u = (((p1_y - pt3_y) * dp2_x) - (dp2_y * (p1_x - pt3_x))) / d
-          v = (((p1_y - pt3_y) * dp1_x) - (dp1_y * (p1_x - pt3_x))) / d
+        x1, y1 = x2, y2
+        p1 + u * dp1 = a + v * dp2
+        in coo
+        p1_x + u * dp1_x = pt3_x + v * dp2_x
+        p1_y + u * dp1_y = pt3_y + v * dp2_y
+
+        variables::
+            u, v
+
+        solution::
+
+            d = (dp1_x * dp2_y) - (dp1_y * dp2_x)
+            u = (((p1_y - pt3_y) * dp2_x) - (dp2_y * (p1_x - pt3_x))) / d
+            v = (((p1_y - pt3_y) * dp1_x) - (dp1_y * (p1_x - pt3_x))) / d
 
     :param in_touch: bool
     :param p1: numpy.array; first point of first segment
@@ -33,17 +37,25 @@ def intersection(p1, p2, p3, p4, in_touch=False):
     :param p3: numpy.array; first point of second segment
     :param p4: numpy.array; second point of second segment
     :return: tuple
-                  0: intersection_status:
-                          False: parallel
-                          True:  intersection
-                  1: segment intersection (if segments share common point/s):
-                          False:     no intersection
-                          True:      intersection between defined points or overlap
-                          numpy.nan: uknown
-                  2: intersection Point
-                  3: distance if parallel
-                  4: string representation/description
+
+        0: intersection_status::
+
+              False: parallel
+              True:  intersection
+
+        1: segment intersection (if segments share common point/s)::
+
+              False:     no intersection
+              True:      intersection between defined points or overlap
+              numpy.nan: uknown
+
+        2: intersection Point
+
+        3: distance if parallel
+        
+        4: string representation/description
     """
+
     p1, p2, p3, p4 = np.array(p1), np.array(p2), np.array(p3), np.array(p4)
     # first line
     dp1 = p2 - p1
