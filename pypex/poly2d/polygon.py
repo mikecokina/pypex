@@ -5,7 +5,6 @@ from pypex.poly2d.intersection import sat
 from pypex.poly2d.point import Point
 from pypex.poly2d.line import Line
 from pypex.base.conf import ROUND_PRECISION as PRECISION
-from scipy.spatial import ConvexHull
 
 
 class Polygon(shape.Shape2D):
