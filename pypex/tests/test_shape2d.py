@@ -302,3 +302,23 @@ class PolygonIntersectionObjectTestCase(unittest.TestCase):
         expected = [[0.5, 0.], [1., 0.], [1., 1.], [0.5, 1.]]
         obtained = [[round(p[0], 3), round(p[1], 3)] for p in poly3.hull]
         assert_array_equal(obtained, expected)
+
+
+class PolygonSurfaceAreaObjectTestCase(unittest.TestCase):
+
+    def test_surface_area(self):
+        faces = [[[0.0, 0.0],
+                  [1.0, 0.0],
+                  [1.0, 1.0]],
+
+                 [[0.0, 0.0],
+                  [1.0, 0.0],
+                  [1.0, 1.0],
+                  [0.0, 1.0]]]
+
+        poly1 = Polygon(faces[0])
+        poly2 = Polygon(faces[1])
+        area1 = poly1.surface_area()
+        area2 = poly2.surface_area()
+
+        self.assertEqual([0.5, 1.0], [area1, area2])

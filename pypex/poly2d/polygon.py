@@ -5,6 +5,7 @@ from pypex.poly2d.intersection import sat
 from pypex.poly2d.point import Point
 from pypex.poly2d.line import Line
 from pypex.base.conf import ROUND_PRECISION as PRECISION
+from scipy.spatial import ConvexHull
 
 
 class Polygon(shape.Shape2D):
@@ -61,3 +62,8 @@ class Polygon(shape.Shape2D):
         intersection_poly = Point.set(intersection_poly, tol=tol)
 
         return Polygon(intersection_poly) if len(intersection_poly) > 2 else None
+
+    def surface_area(self):
+        lines = np.hstack([self.hull, np.roll(self.hull, -1, axis=0)])
+        area = 0.5 * abs(sum(x1 * y2 - x2 * y1 for x1, y1, x2, y2 in lines))
+        return area
