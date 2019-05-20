@@ -47,9 +47,7 @@ def is_point_in_polygon(point, polygon):
     """
     if len(polygon) < 3:
         raise ValueError("invalid polygon shape, expected at least 3 corners polygon")
-    # todo: this have to be tunned; lead to positive result in base polygon radius + PRECISION;
-    #  find out other way how to tread on edge point as inside
-    return polygon.mplpath.contains_point(point.to_array(), radius=PRECISION)
+    return polygon.mplpath.contains_point(point.to_array())
 
 
 class _Point(object):
