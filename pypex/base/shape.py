@@ -10,6 +10,7 @@ class Shape2D(metaclass=ABCMeta):
     """
     Convex 2D Shape
     """
+
     def __init__(self, hull, _validity=True):
         hull = self.normalize_hull(hull)
         if _validity:
@@ -72,6 +73,9 @@ class Shape2D(metaclass=ABCMeta):
         if inplace:
             self.hull = hull
         return hull
+
+    def to_Points(self):
+        return np.array([Point(*point) for point in self.hull])
 
     @staticmethod
     def validity_check(hull, length, _raise=True):
