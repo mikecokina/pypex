@@ -57,7 +57,7 @@ class Polygon(shape.Shape2D):
             line1 = Line(edge1, _validity=False)
             for edge2 in poly.edges():
                 line2 = Line(edge2, _validity=False)
-                intersection = line1.intersects(line2, _full=True, in_touch=True, tol=tol)
+                intersection = line1.full_intersects(line2, in_touch=True, tol=tol)
                 if intersection[1] and (intersection[-1] in ["INTERSECT"]):
                     intersection_poly = np.concatenate((intersection_poly, [intersection[2]]), axis=0)
         intersection_poly = Point.set(intersection_poly, tol=tol)
