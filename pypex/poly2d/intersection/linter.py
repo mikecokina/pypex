@@ -3,10 +3,10 @@ import numpy as np
 from pypex.base.conf import PRECISION, ROUND_PRECISION
 from pypex.poly2d.intersection import sat
 from pypex.poly2d.point import Point
-from pypex.utils import det_2d
+from pypex.utils import det_2d, multiple_determinants
 
 
-def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
+def intersection(p1, p2, p3, p4, in_touch=False, tol=PRECISION, round_tol=ROUND_PRECISION):
     """
     defs::
 
@@ -36,7 +36,8 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
     :param p2: numpy.array; second point of first segment
     :param p3: numpy.array; first point of second segment
     :param p4: numpy.array; second point of second segment
-    :param tol: int; consider two numbers as same if match up to `tol` decimal numbers
+    :param round_tol: int; consider two numbers as same if match up to `round_tol` decimal numbers
+    :param tol: float; consider number as zero if smaller than 'tol'
     :param in_touch: bool
     :return: tuple
 
@@ -69,7 +70,7 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
 
     # test if d < 1e-10
     # testing on zero, but precission should cause p3 problem
-    if np.abs(d) < PRECISION:
+    if np.abs(d) < tol:
         # test distance between lines
         # if general form is known (ax + by + c1 = 0 and ax + by + c2 = 0),
         # d = abs(c1 - c2) / sqrt(a**2 + b**2)
@@ -95,9 +96,9 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
         c2 = - (a1 * p3[0] + b1 * p3[1])
         d = abs(c2 - c1) / (np.sqrt(a1 ** 2 + b1 ** 2))
 
-        intersects, msg = (True, "OVERLAP") if d == 0 else (False, "PARALLEL")
+        intersects, msg = (True, "OVERLAP") if abs(d) < tol else (False, "PARALLEL")
         int_in_segment = False if msg in ["PARALLEL"] \
-            else sat.intersects(np.array([p1, p2]), np.array([p3, p4]), in_touch, tol)
+            else sat.intersects(np.array([p1, p2]), np.array([p3, p4]), in_touch, round_tol)
         return intersects, int_in_segment, np.nan, d, msg
 
     # +0 because of negative zero (-0.0 is incorrect) formatting on output
@@ -109,3 +110,107 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
     int_segment = True if np.logical_and(eval_method(0.0, u), eval_method(u, 1.0)) and \
         np.logical_and(eval_method(0.0, v), eval_method(v, 1.0)) else False
     return True, int_segment, Point(int_x, int_y), np.nan, "INTERSECT"
+
+
+def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_PRECISION):
+    m1, _ = poly1.shape
+    m2, _ = poly2.shape
+    n1, n2 = 2, 2
+
+    intersection_status, intersection_segment = np.zeros(m1 * m2, dtype=np.bool), np.zeros(m1 * m2, dtype=np.bool)
+    intr_ptx = np.full_like(np.empty((m1 * m2, 2), dtype=np.float), np.nan)
+    distance = np.full_like(np.empty(m1 * m2, dtype=np.float), np.nan)
+
+    msg = np.chararray(m1 * m2, itemsize=9)
+
+    poly1_edges = _polygon_hull_to_edges(poly1)
+    poly2_edges = _polygon_hull_to_edges(poly2)
+
+    dif_poly1 = poly1_edges[:, 1, :] - poly1_edges[:, 0, :]
+    dif_poly2 = poly2_edges[:, 1, :] - poly2_edges[:, 0, :]
+
+    # make all possible determinants matrix for all combination of lines (needs for equation solver 1/D)
+    corr_dpoly1 = np.repeat(dif_poly1, m2, axis=0)
+    corr_dpoly2 = np.tile(dif_poly2, (m1, 1))
+
+    det_matrix = np.empty((m1 * m2, n1, n2))
+    det_matrix[:, 0, :] = corr_dpoly1
+    det_matrix[:, 1, :] = corr_dpoly2
+
+    determinants = multiple_determinants(det_matrix)
+    non_intersections = np.abs(determinants) < tol
+
+    if non_intersections.any():
+        problem_poly1 = np.repeat(poly1, m2, axis=0)[non_intersections]
+        problem_dif_poly1 = np.repeat(dif_poly1, m2, axis=0)[non_intersections]
+        a1, b1 = -problem_dif_poly1[:, 1], problem_dif_poly1[:, 0]
+
+        face_dface = np.empty((problem_poly1.shape[0], 2, problem_poly1.shape[1]), dtype=problem_poly1.dtype)
+        face_dface[:, 0, :] = problem_poly1
+        face_dface[:, 1, :] = problem_dif_poly1
+        c1 = multiple_determinants(face_dface)
+
+        problem_poly2_edges = np.tile(poly2_edges, (poly1.shape[0], 1, 1))[non_intersections]
+        c2 = -(a1 * problem_poly2_edges[:, 1, 0] + b1 * problem_poly2_edges[:, 1, 1])
+        dist = np.abs(c2 - c1) / (np.sqrt(np.power(a1, 2) + np.sqrt(np.power(b1, 2))))
+
+        # fill output
+        distance[non_intersections] = dist
+        msg[non_intersections] = np.str('PARALLEL')
+        overlaps = non_intersections.copy()
+
+        overlaps[non_intersections] = np.abs(dist) < tol
+        intersection_status[overlaps] = True
+
+        if np.any(overlaps):
+            # assume that in real life, there will neglible amount of parallel lines with zero distance (overlap lines)
+            # so we can use for loop without any significant loose of performance
+            poly1_comb_overlap = np.repeat(poly1_edges, m2, axis=0)[overlaps]
+            poly2_comb_overlap = np.tile(poly2_edges, (m1, 1, 1))[overlaps]
+
+            intersection_segment[overlaps] = np.array([sat.intersects(a, b, in_touch=in_touch, round_tol=round_tol)
+                                                       for a, b in zip(poly1_comb_overlap, poly2_comb_overlap)])
+            msg[overlaps] = 'OVERLAP'
+
+    ints = ~non_intersections
+    ok_dif_poly1, ok_dif_poly2 = corr_dpoly1[ints], corr_dpoly2[ints]
+    ok_poly1_edges, ok_poly2_edges = np.repeat(poly1_edges, m2, axis=0)[ints], np.tile(poly2_edges, (m1, 1, 1))[ints]
+
+    p1_p3 = ok_poly1_edges[:, 0, :] - ok_poly2_edges[:, 0, :]
+
+    dp2_p1_p3matrix = _dpx_p1_p3matrix(p1_p3, ok_dif_poly1, ok_dif_poly2)
+    dp1_p1_p3matrix = _dpx_p1_p3matrix(p1_p3, ok_dif_poly1, ok_dif_poly1)
+
+    d = determinants[ints]
+    u = (multiple_determinants(dp2_p1_p3matrix) / d) + 0.0
+    v = (multiple_determinants(dp1_p1_p3matrix) / d) + 0.0
+
+    eval_method = np.less_equal if in_touch else np.less
+    intersect_in = ok_poly1_edges[:, 0, :] + (u[:, np.newaxis] * ok_dif_poly1)
+
+    u_in_range = np.logical_and(eval_method(0.0, u), eval_method(u, 1.0))
+    v_in_range = np.logical_and(eval_method(0.0, v), eval_method(v, 1.0))
+
+    true_intersections = np.logical_and(u_in_range, v_in_range)
+
+    # fill output
+    intersection_status[ints] = True
+    intersection_segment[ints] = true_intersections
+    msg[ints] = 'INTERSECT'
+    intr_ptx[ints] = intersect_in
+
+    return intersection_status, intersection_segment, intr_ptx, distance, msg
+
+
+def _polygon_hull_to_edges(hull: np.array):
+    edges = np.empty((hull.shape[0], 2, 2))
+    edges[:, 0, :] = hull
+    edges[:, 1, :] = np.roll(hull, axis=0, shift=-1)
+    return edges
+
+
+def _dpx_p1_p3matrix(p1_p3, dpoly1, dpoly2):
+    dpx_p1_p3matrix = np.empty((dpoly1.shape[0], 2, p1_p3.shape[1]), dtype=p1_p3.dtype)
+    dpx_p1_p3matrix[:, 0, :] = dpoly2
+    dpx_p1_p3matrix[:, 1, :] = p1_p3
+    return dpx_p1_p3matrix

@@ -25,23 +25,23 @@ class Polygon(shape.Shape2D):
         for i in range(-1, len(self.hull)-1, 1):
             yield np.array([self.hull[i], self.hull[i+1]])
 
-    def intersects(self, poly, in_touch=False, tol=ROUND_PRECISION):
+    def intersects(self, poly, in_touch=False, round_tol=ROUND_PRECISION):
         """
         Whether two polygons intersects.
 
-        :param tol:
+        :param round_tol:
         :param poly: pypex.poly2d.polygon.Polygon
         :param in_touch: bool
         :return: bool
         """
-        return sat.intersects(self.hull, poly.hull, in_touch, tol)
+        return sat.intersects(self.hull, poly.hull, in_touch, round_tol)
 
-    def intersection(self, poly, tol=ROUND_PRECISION):
+    def intersection(self, poly, round_tol=ROUND_PRECISION):
         """
         Find intersection polygon created by clipping of one polygon by another.
 
         :param poly: pypex.poly2d.polygon.Polygon
-        :param tol: int; round precision of decimal points to consider numbers as same
+        :param round_tol: int; round precision of decimal points to consider numbers as same
         :return: pypex.poly2d.polygon.Polygon
         """
         # add  the corners of `self` which are inside poly
@@ -57,10 +57,10 @@ class Polygon(shape.Shape2D):
             line1 = Line(edge1, _validity=False)
             for edge2 in poly.edges():
                 line2 = Line(edge2, _validity=False)
-                intersection = line1.full_intersects(line2, in_touch=True, tol=tol)
+                intersection = line1.full_intersects(line2, in_touch=True, round_tol=round_tol)
                 if intersection[1] and (intersection[-1] in ["INTERSECT"]):
                     intersection_poly = np.concatenate((intersection_poly, [intersection[2]]), axis=0)
-        intersection_poly = Point.set(intersection_poly, tol=tol)
+        intersection_poly = Point.set(intersection_poly, round_tol=round_tol)
         return Polygon(intersection_poly, _validity=False) if len(intersection_poly) > 2 else None
 
     def surface_area(self):
