@@ -95,10 +95,10 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=ROUND_PRECISION):
         c2 = - (a1 * p3[0] + b1 * p3[1])
         d = abs(c2 - c1) / (np.sqrt(a1 ** 2 + b1 ** 2))
 
-        int_segment, msg = (True, "OVERLAP") if d == 0 else (False, "PARALLEL")
-        intersects = False if msg in ["PARALLEL"] \
+        intersects, msg = (True, "OVERLAP") if d == 0 else (False, "PARALLEL")
+        int_in_segment = False if msg in ["PARALLEL"] \
             else sat.intersects(np.array([p1, p2]), np.array([p3, p4]), in_touch, tol)
-        return int_segment, intersects, np.nan, d, msg
+        return intersects, int_in_segment, np.nan, d, msg
 
     # +0 because of negative zero (-0.0 is incorrect) formatting on output
     u = (det_2d([dp2, p1 - p3]) / d) + 0.
