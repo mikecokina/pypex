@@ -2,10 +2,11 @@ import numpy as np
 import matplotlib.path as mpltpath
 
 from pypex.base import shape
-from pypex.poly2d.intersection import sat
+from pypex.poly2d.intersection import sat, linter
 from pypex.poly2d.point import Point
 from pypex.poly2d.line import Line
 from pypex.base.conf import ROUND_PRECISION
+from pypex.utils import multiple_determinants
 
 
 class Polygon(shape.Shape2D):
@@ -44,22 +45,15 @@ class Polygon(shape.Shape2D):
         :param round_tol: int; round precision of decimal points to consider numbers as same
         :return: pypex.poly2d.polygon.Polygon
         """
-        # add  the corners of `self` which are inside poly
-        poly1 = self.to_Points()
-        poly2 = poly.to_Points()
-
-        in_poly1 = poly2[[corner.is_inside_polygon(self) for corner in poly2]]
-        in_poly2 = poly1[[corner.is_inside_polygon(poly) for corner in poly1]]
+        in_poly1 = poly.hull[self.mplpath.contains_points(poly.hull)]
+        in_poly2 = self.hull[poly.mplpath.contains_points(self.hull)]
         intersection_poly = np.concatenate((in_poly1, in_poly2), axis=0)
+        intersection_poly = np.array([Point(*point) for point in intersection_poly])
 
-        # find point of intersected edges
-        for edge1 in self.edges():
-            line1 = Line(edge1, _validity=False)
-            for edge2 in poly.edges():
-                line2 = Line(edge2, _validity=False)
-                intersection = line1.full_intersects(line2, in_touch=True, round_tol=round_tol)
-                if intersection[1] and (intersection[-1] in ["INTERSECT"]):
-                    intersection_poly = np.concatenate((intersection_poly, [intersection[2]]), axis=0)
+        _, intersection_segment, intr_ptx, _, msg, _ = linter.intersections(self.hull, poly.hull, in_touch=True)
+        points_mask = np.logical_and(msg == b'INTERSECT', intersection_segment)
+        intr_ptx = [Point(*point) for point in intr_ptx[points_mask]]
+        intersection_poly = np.concatenate((intersection_poly, intr_ptx), axis=0)
         intersection_poly = Point.set(intersection_poly, round_tol=round_tol)
         return Polygon(intersection_poly, _validity=False) if len(intersection_poly) > 2 else None
 

@@ -117,6 +117,9 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
     m2, _ = poly2.shape
     n1, n2 = 2, 2
 
+    # mask to origin
+    idx_mask = _index_map(m1, m2)
+
     intersection_status, intersection_segment = np.zeros(m1 * m2, dtype=np.bool), np.zeros(m1 * m2, dtype=np.bool)
     intr_ptx = np.full_like(np.empty((m1 * m2, 2), dtype=np.float), np.nan)
     distance = np.full_like(np.empty(m1 * m2, dtype=np.float), np.nan)
@@ -149,11 +152,9 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
         face_dface[:, 0, :] = problem_poly1
         face_dface[:, 1, :] = problem_dif_poly1
         c1 = multiple_determinants(face_dface)
-
         problem_poly2_edges = np.tile(poly2_edges, (poly1.shape[0], 1, 1))[non_intersections]
         c2 = -(a1 * problem_poly2_edges[:, 1, 0] + b1 * problem_poly2_edges[:, 1, 1])
         dist = np.abs(c2 - c1) / (np.sqrt(np.power(a1, 2) + np.sqrt(np.power(b1, 2))))
-
         # fill output
         distance[non_intersections] = dist
         msg[non_intersections] = np.str('PARALLEL')
@@ -190,20 +191,34 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
 
     u_in_range = np.logical_and(eval_method(0.0, u), eval_method(u, 1.0))
     v_in_range = np.logical_and(eval_method(0.0, v), eval_method(v, 1.0))
-
-    true_intersections = np.logical_and(u_in_range, v_in_range)
+    segments_intersection_status = np.logical_and(u_in_range, v_in_range)
 
     # fill output
     intersection_status[ints] = True
-    intersection_segment[ints] = true_intersections
+    intersection_segment[ints] = segments_intersection_status
     msg[ints] = 'INTERSECT'
     intr_ptx[ints] = intersect_in
 
-    return intersection_status, intersection_segment, intr_ptx, distance, msg
+    return intersection_status, intersection_segment, intr_ptx, distance, msg, idx_mask
+
+
+def _index_map(m1, m2):
+    x = np.empty((m1, 2), dtype=int)
+    x[:, 0] = np.arange(m1)
+    x[:, 1] = np.roll(x[:, 0], axis=0, shift=-1)
+
+    y = np.empty((m2, 2))
+    y[:, 0] = np.arange(m2)
+    y[:, 1] = np.roll(y[:, 0], axis=0, shift=-1)
+
+    idx_map = np.empty((m1 * m2, 4))
+    idx_map[:, :2] = np.repeat(x, m2, axis=0)
+    idx_map[:, 2:] = np.tile(y, (m1, 1))
+    return idx_map
 
 
 def _polygon_hull_to_edges(hull: np.array):
-    edges = np.empty((hull.shape[0], 2, 2))
+    edges = np.zeros((hull.shape[0], 2, 2))
     edges[:, 0, :] = hull
     edges[:, 1, :] = np.roll(hull, axis=0, shift=-1)
     return edges
