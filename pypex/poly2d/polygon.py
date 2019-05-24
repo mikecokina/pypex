@@ -58,7 +58,3 @@ class Polygon(shape.Shape2D):
     def surface_area(self):
         lines = linter.polygon_hull_to_edges(self.hull)
         return 0.5 * np.abs(np.sum(lines[:, 0, 0] * lines[:, 1, 1] - lines[:, 1, 0] * lines[:, 0, 1]))
-
-    @staticmethod
-    def polygons_hull_surface_area(hulls):
-        pass
