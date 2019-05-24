@@ -4,9 +4,7 @@ import matplotlib.path as mpltpath
 from pypex.base import shape
 from pypex.poly2d.intersection import sat, linter
 from pypex.poly2d.point import Point
-from pypex.poly2d.line import Line
 from pypex.base.conf import ROUND_PRECISION
-from pypex.utils import multiple_determinants
 
 
 class Polygon(shape.Shape2D):
@@ -58,5 +56,9 @@ class Polygon(shape.Shape2D):
         return Polygon(intersection_poly, _validity=False) if len(intersection_poly) > 2 else None
 
     def surface_area(self):
-        lines = np.hstack([self.hull, np.roll(self.hull, -1, axis=0)])
-        return 0.5 * abs(sum(x1 * y2 - x2 * y1 for x1, y1, x2, y2 in lines))
+        lines = linter.polygon_hull_to_edges(self.hull)
+        return 0.5 * np.abs(np.sum(lines[:, 0, 0] * lines[:, 1, 1] - lines[:, 1, 0] * lines[:, 0, 1]))
+
+    @staticmethod
+    def polygons_hull_surface_area(hulls):
+        pass

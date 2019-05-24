@@ -113,6 +113,17 @@ def intersection(p1, p2, p3, p4, in_touch=False, tol=PRECISION, round_tol=ROUND_
 
 
 def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_PRECISION):
+    """
+    Vectorised implementaion of lines intersection function. Compute intersections of all combination of supplied
+    arrays of points which define convex polygon
+
+    :param poly1: numpy.array; clokwise ordered numpy array of points
+    :param poly2: numpy.array; clokwise ordered numpy array of points
+    :param in_touch: bool; consider touch in one point as intersection
+    :param tol: consider all numbers as zero when abs(number) < tol
+    :param round_tol: consider two numbers as same if match up to round_tol deciaml numbers
+    :return: tuple;
+    """
     m1, _ = poly1.shape
     m2, _ = poly2.shape
     n1, n2 = 2, 2
@@ -126,8 +137,8 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
 
     msg = np.chararray(m1 * m2, itemsize=9)
 
-    poly1_edges = _polygon_hull_to_edges(poly1)
-    poly2_edges = _polygon_hull_to_edges(poly2)
+    poly1_edges = polygon_hull_to_edges(poly1)
+    poly2_edges = polygon_hull_to_edges(poly2)
 
     dif_poly1 = poly1_edges[:, 1, :] - poly1_edges[:, 0, :]
     dif_poly2 = poly2_edges[:, 1, :] - poly2_edges[:, 0, :]
@@ -217,7 +228,7 @@ def _index_map(m1, m2):
     return idx_map
 
 
-def _polygon_hull_to_edges(hull: np.array):
+def polygon_hull_to_edges(hull: np.array):
     edges = np.zeros((hull.shape[0], 2, 2))
     edges[:, 0, :] = hull
     edges[:, 1, :] = np.roll(hull, axis=0, shift=-1)
