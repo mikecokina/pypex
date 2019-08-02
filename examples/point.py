@@ -15,11 +15,12 @@ def main():
     print("Point as python list {}".format(pnt_list))
 
     points = [point.Point(0.3456111, 0.3123), point.Point(0.3456, 0.3123)]
-    set_tol3 = point.Point.set(points, tol=3)
+    set_tol3 = point.Point.set(points, round_tol=3)
     print("Points {} define following set with tolerance 3: {}".format(points, set_tol3))
 
-    set_tol9 = point.Point.set(points, tol=9)
+    set_tol9 = point.Point.set(points, round_tol=9)
     print("Points {} define following set with tolerance 9: {}".format(points, set_tol9))
+
 
 if __name__ == "__main__":
     main()
