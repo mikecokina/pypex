@@ -1,5 +1,5 @@
-pypex.poly2d package
-====================
+pypex\.poly2d package
+=====================
 
 Subpackages
 -----------
@@ -11,32 +11,32 @@ Subpackages
 Submodules
 ----------
 
-pypex.poly2d.line module
-------------------------
+pypex\.poly2d\.line module
+--------------------------
 
 .. automodule:: pypex.poly2d.line
     :members:
     :undoc-members:
     :show-inheritance:
 
-pypex.poly2d.point module
--------------------------
+pypex\.poly2d\.point module
+---------------------------
 
 .. automodule:: pypex.poly2d.point
     :members:
     :undoc-members:
     :show-inheritance:
 
-pypex.poly2d.polygon module
----------------------------
+pypex\.poly2d\.polygon module
+-----------------------------
 
 .. automodule:: pypex.poly2d.polygon
     :members:
     :undoc-members:
     :show-inheritance:
 
-pypex.poly2d.projection module
-------------------------------
+pypex\.poly2d\.projection module
+--------------------------------
 
 .. automodule:: pypex.poly2d.projection
     :members:

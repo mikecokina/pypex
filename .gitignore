@@ -9,3 +9,6 @@ __pycache__
 __main__.py
 .cache
 *.pickle
+pypex.egg-info
+dist
+build

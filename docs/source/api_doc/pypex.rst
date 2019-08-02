@@ -12,8 +12,8 @@ Subpackages
 Submodules
 ----------
 
-pypex.utils module
-------------------
+pypex\.utils module
+-------------------
 
 .. automodule:: pypex.utils
     :members:

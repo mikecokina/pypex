@@ -1,19 +1,19 @@
-pypex.poly2d.intersection package
-=================================
+pypex\.poly2d\.intersection package
+===================================
 
 Submodules
 ----------
 
-pypex.poly2d.intersection.linter module
----------------------------------------
+pypex\.poly2d\.intersection\.linter module
+------------------------------------------
 
 .. automodule:: pypex.poly2d.intersection.linter
     :members:
     :undoc-members:
     :show-inheritance:
 
-pypex.poly2d.intersection.sat module
-------------------------------------
+pypex\.poly2d\.intersection\.sat module
+---------------------------------------
 
 .. automodule:: pypex.poly2d.intersection.sat
     :members:

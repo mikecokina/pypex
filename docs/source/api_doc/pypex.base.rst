@@ -1,19 +1,19 @@
-pypex.base package
-==================
+pypex\.base package
+===================
 
 Submodules
 ----------
 
-pypex.base.conf module
-----------------------
+pypex\.base\.conf module
+------------------------
 
 .. automodule:: pypex.base.conf
     :members:
     :undoc-members:
     :show-inheritance:
 
-pypex.base.shape module
------------------------
+pypex\.base\.shape module
+-------------------------
 
 .. automodule:: pypex.base.shape
     :members:
