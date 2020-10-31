@@ -314,7 +314,7 @@ Polygon vs polygon interaction
     Poly (3): [[0.38461538 0.        ], [0.61538462 0.        ], [0.5 0.3]]
 
 
-.. image:: ./docs/source/_static/ln_vs_ln_03.svg
+.. image:: ./docs/source/_static/poly_vs_poly.svg
   :width: 50%
   :alt: poly_vs_poly.svg
   :align: center
