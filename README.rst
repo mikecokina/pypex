@@ -324,6 +324,19 @@ Polygon vs polygon interaction
   :align: center
 
 
+**[In]**
+
+.. code-block:: python
+
+    _polygon = np.array([[0.0, 0.0], [0.3, 0.0], [0.4, 1.1], [0.1, 0.5]])
+    poly = polygon.Polygon(_polygon)
+    inpolygon = poly.inpolygon()
+
+.. image:: ./docs/source/_static/inpolygon.svg
+  :width: 50%
+  :alt: inpolygon.svg
+  :align: center
+
 Projections
 ~~~~~~~~~~~
 

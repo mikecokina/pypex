@@ -2,7 +2,7 @@
 
 ## [v0.1.0]()
 
-### Enhancements
+### Features
 ##### all in 2D
 
     - implementation of Polygon, Line and Point 
@@ -12,9 +12,14 @@
 
 ## [v0.2.0]()
 
-### Enhancements
-
+### Features
+    
+    - inerpolygon - find polygon which points are defind as center of each edge of original polygon
     - line parametrization method
+
+### Enhancements
+    
+    - support transpose of Shape2D (.T) for simplier interaction with raw points
 
 ### Fixes
 

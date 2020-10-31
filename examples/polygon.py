@@ -53,7 +53,7 @@ def main():
         params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
         matplotlib.rcParams.update(params)
 
-        ig, ax = plt.subplots()
+        fig, ax = plt.subplots()
         patches = [polyg(poly1.hull, True), polyg(poly2.hull, True)]
         p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4, edgecolors="k")
         colors = 100 * np.random.rand(len(patches))
@@ -63,6 +63,34 @@ def main():
         plt.xlim(-0.5, 1.5)
         plt.ylim(-1.5, 1.5)
         plt.show()
+    except ImportError:
+        pass
+
+    # inpolygon
+    _polygon = np.array([[0.0, 0.0], [0.3, 0.0], [0.4, 1.1], [0.1, 0.5]])
+    poly = polygon.Polygon(_polygon)
+    inpolygon = poly.inpolygon()
+
+    try:
+        import matplotlib
+        import matplotlib.pyplot as plt
+        from matplotlib.patches import Polygon as polyg
+        from matplotlib.collections import PatchCollection
+
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        matplotlib.rcParams.update(params)
+
+        fig, ax = plt.subplots()
+        patches = [polyg(poly.hull, True), polyg(inpolygon.hull, True)]
+        p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4, edgecolors="k")
+        colors = 100 * np.random.rand(len(patches))
+        p.set_array(np.array(colors))
+        ax.add_collection(p)
+        plt.xlim(-0.25, 0.6)
+        plt.ylim(-0.25, 1.2)
+        plt.show()
+
     except ImportError:
         pass
 
