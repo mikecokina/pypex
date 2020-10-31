@@ -1,5 +1,4 @@
 import numpy as np
-
 from pypex.poly2d import polygon
 
 
@@ -7,7 +6,7 @@ def main():
     poly1 = polygon.Polygon([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
     poly2 = polygon.Polygon([[0.5, 0.3], [0.0, -1.0], [1.0, -1.0]])
 
-    print("Polygon with hull defined by {} is automaticaly sorted to clokwise corners as {}\n"
+    print("Polygon with hull defined by {} \n is automaticaly sorted to clokwise corners as {}\n"
           "".format([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]], poly1.hull))
 
     try:
@@ -15,6 +14,10 @@ def main():
         import matplotlib.pyplot as plt
         from matplotlib.patches import Polygon as polyg
         from matplotlib.collections import PatchCollection
+
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        matplotlib.rcParams.update(params)
 
         fig, ax = plt.subplots()
         patches = [polyg(poly1.hull, True), polyg(poly2.hull, True)]
@@ -46,15 +49,19 @@ def main():
         from matplotlib.patches import Polygon as polyg
         from matplotlib.collections import PatchCollection
 
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        matplotlib.rcParams.update(params)
+
         ig, ax = plt.subplots()
         patches = [polyg(poly1.hull, True), polyg(poly2.hull, True)]
-        p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4)
+        p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4, edgecolors="k")
         colors = 100 * np.random.rand(len(patches))
         p.set_array(np.array(colors))
         ax.add_collection(p)
         plt.scatter(intersection.hull.T[0], intersection.hull.T[1])
-        plt.xlim(-2, 2)
-        plt.ylim(-2, 2)
+        plt.xlim(-0.5, 1.5)
+        plt.ylim(-1.5, 1.5)
         plt.show()
     except ImportError:
         pass

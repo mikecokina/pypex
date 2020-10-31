@@ -1,4 +1,7 @@
-|GitHub version|  |Licence GPLv2| |Python version| |OS|
+|Travis build|  |GitHub version|  |Licence GPLv2| |Python version| |OS|
+
+.. |Travis build| image:: https://travis-ci.org/mikecokina/pypex.svg?branch=dev
+    :target: https://travis-ci.org/mikecokina/pypex
 
 .. |GitHub version| image:: https://img.shields.io/badge/version-0.2.0.dev0-yellow.svg
    :target: https://github.com/Naereen/StrapDown.js
@@ -47,7 +50,7 @@ Point vs Polygon interaction
 
 
 .. image:: ./docs/source/_static/pnt_vs_poly.svg
-  :width: 60%
+  :width: 50%
   :alt: pnt_vs_poly.svg
   :align: center
 
@@ -158,7 +161,7 @@ Line vs Line interaction
         defined segments description INTERSECT
 
 .. image:: ./docs/source/_static/ln_vs_ln_00.svg
-  :width: 60%
+  :width: 50%
   :alt: ln_vs_ln_00.svg
   :align: center
 
@@ -187,7 +190,7 @@ Line vs Line interaction
         defined segments description PARALLEL
 
 .. image:: ./docs/source/_static/ln_vs_ln_01.svg
-  :width: 60%
+  :width: 50%
   :alt: ln_vs_ln_01.svg
   :align: center
 
@@ -216,7 +219,7 @@ Line vs Line interaction
         defined segments description OVERLAP
 
 .. image:: ./docs/source/_static/ln_vs_ln_02.svg
-  :width: 60%
+  :width: 50%
   :alt: ln_vs_ln_02.svg
   :align: center
 
@@ -245,6 +248,73 @@ Line vs Line interaction
         defined segments description OVERLAP
 
 .. image:: ./docs/source/_static/ln_vs_ln_03.svg
-  :width: 60%
+  :width: 50%
   :alt: ln_vs_ln_03.svg
+  :align: center
+
+Polygon vs polygon interaction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**[In]**
+
+.. code-block:: python
+
+    import numpy as np
+    from pypex.poly2d import polygon
+
+    poly1 = polygon.Polygon([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+    poly2 = polygon.Polygon([[0.5, 0.3], [0.0, -1.0], [1.0, -1.0]])
+
+    print("Polygon with hull defined by {} \n is automaticaly sorted to clokwise corners as {}\n"
+          "".format([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]], poly1.hull))
+
+
+
+**[Out]**::
+
+    Polygon with hull defined by [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]]
+    is automaticaly sorted to clokwise corners as [[0. 0.] [1. 0.] [1. 1.] [0. 1.]]
+
+
+**[In]**
+
+.. code-block:: python
+
+    print(f"\n {poly1} has following edges")
+    for edge in poly1.edges():
+        print(f"edge {edge}")
+
+**[Out]**::
+
+    Poly (4): [[0. 0.], [1. 0.], [1. 1.], [0. 1.]] has following edges
+    edge [[0. 1.] [0. 0.]]
+    edge [[0. 0.] [1. 0.]]
+    edge [[1. 0.] [1. 1.]]
+    edge [[1. 1.] [0. 1.]]
+
+.. code-block:: python
+
+    intersects = poly1.intersects(poly2)
+    print(f"{poly1} intersects {poly2}: {intersects}")
+
+**[Out]**::
+
+    Poly (4): [[0. 0.], [1. 0.], [1. 1.], [0. 1.]] intersects Poly (3): [[ 0. -1.], [ 1. -1.], [0.5 0.3]]: True
+
+
+.. code-block:: python
+
+    intersection = poly1.intersection(poly2)
+    print(f"Intersection of {poly1} and {poly2} is following polygon: \n"
+          f"{intersection}")
+
+**[Out]**::
+
+    Intersection of Poly (4): [[0. 0.], [1. 0.], [1. 1.], [0. 1.]] and Poly (3): [[ 0. -1.], [ 1. -1.], [0.5 0.3]] is following polygon:
+    Poly (3): [[0.38461538 0.        ], [0.61538462 0.        ], [0.5 0.3]]
+
+
+.. image:: ./docs/source/_static/ln_vs_ln_03.svg
+  :width: 50%
+  :alt: poly_vs_poly.svg
   :align: center
