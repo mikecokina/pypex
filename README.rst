@@ -292,6 +292,8 @@ Polygon vs polygon interaction
     edge [[1. 0.] [1. 1.]]
     edge [[1. 1.] [0. 1.]]
 
+**[In]**
+
 .. code-block:: python
 
     intersects = poly1.intersects(poly2)
@@ -301,6 +303,8 @@ Polygon vs polygon interaction
 
     Poly (4): [[0. 0.], [1. 0.], [1. 1.], [0. 1.]] intersects Poly (3): [[ 0. -1.], [ 1. -1.], [0.5 0.3]]: True
 
+
+**[In]**
 
 .. code-block:: python
 
@@ -317,4 +321,55 @@ Polygon vs polygon interaction
 .. image:: ./docs/source/_static/poly_vs_poly.svg
   :width: 50%
   :alt: poly_vs_poly.svg
+  :align: center
+
+
+Projections
+~~~~~~~~~~~
+
+**[In]**
+
+.. code-block:: python
+
+    import numpy as np
+    from pypex import projection
+
+    point = np.array([0.3, 0.4])
+    x_like_vector = np.array([1.0,  1.0])
+    # vector which define `x` axis of new system
+    new_x_like_vector = x_like_vector / np.linalg.norm(x_like_vector)
+    # perpendicular to `new_x_like_vector` which define y axis of new system
+    new_y_like_vector = [-new_x_like_vector[1], new_x_like_vector[0]]
+    projected_point = projection.cartesian_to_vectors_defined(tn=new_x_like_vector, nn=new_y_like_vector, vector=point)
+
+    print(f'Point {point} projected to new system as {projected_point}')
+
+**[Out]**::
+
+    Point [0.3 0.4] projected to new system as [0.49497475 0.07071068]
+
+.. image:: ./docs/source/_static/projection_00.svg
+  :width: 50%
+  :alt: projection_00.svg
+  :align: center
+
+**[In]**
+
+.. code-block:: python
+
+    # direction vector
+    to_vector = np.array([0.3, 1.2])
+    # vector which will be ptojected to direction vetor
+    vector = np.array([1.0, 1.0])
+    # vector projected to direction vector
+    projected_vector = projection.projection(vector, to_vector)
+    print(f"Vector {vector} projected to vector {to_vector} as {projected_vector}")
+
+**[Out]**::
+
+    Vector [1. 1.] projected to vector [0.3 1.2] as [0.29411765 1.17647059]
+
+.. image:: ./docs/source/_static/projection_01.svg
+  :width: 50%
+  :alt: projection_01.svg
   :align: center

@@ -1,6 +1,5 @@
 import numpy as np
-
-from pypex.poly2d import projection
+from pypex import projection
 
 
 def main():
@@ -14,7 +13,13 @@ def main():
     print('Point {} projected to new system as {}'.format(point, projected_point))
 
     try:
+        import matplotlib as mpl
         from matplotlib import pyplot as plt
+
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        mpl.rcParams.update(params)
+
         plt.scatter(point[0], point[1], c='r')
         plt.scatter(projected_point[0], projected_point[1], c='b')
         plt.plot([0.0, new_x_like_vector[0]], [0.0, new_x_like_vector[1]])
@@ -34,7 +39,13 @@ def main():
     print("Vector {} projected to vector {} as {}".format(vector, to_vector, projected_vector))
 
     try:
+        import matplotlib as mpl
         from matplotlib import pyplot as plt
+
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        mpl.rcParams.update(params)
+
         plt.plot([0.0, to_vector[0]], [0.0, to_vector[1]])
         plt.plot([0.0, vector[0]], [0.0, vector[1]])
         plt.scatter(projected_vector[0], projected_vector[1])
