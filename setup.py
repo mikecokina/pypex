@@ -16,10 +16,11 @@ here = path.dirname(__file__)
 
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+    long_description = "For more info visit https://github.com/mikecokina/pypex/blob/dev/README.rst"
 
 setup(
     name='pypex',
+    src_root='src',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
