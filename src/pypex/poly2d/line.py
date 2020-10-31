@@ -63,3 +63,19 @@ class Line(shape.Shape2D):
 
     def sort_clockwise(self, *args, **kwargs):
         return self.hull
+
+    def direction_vector(self):
+        """
+        Get
+        :return: numpy.array;
+        """
+        return self.hull[1] - self.hull[0]
+
+    def parametrized(self):
+        """
+        Return callable parametrization of given line as function.
+        """
+        def _parametrized(t):
+            v = self.direction_vector()
+            return self.hull[0][0] + (t * v[0]), self.hull[0][1] + (t * v[1])
+        return _parametrized

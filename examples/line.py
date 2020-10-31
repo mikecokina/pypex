@@ -1,9 +1,9 @@
-from pypex.poly2d import line
+from pypex import Line
 
 
 def main():
-    line1 = line.Line([[0.0, 0.0], [1.1, 1.1]])
-    line2 = line.Line([[0.0, 1.0], [1.0, 0.0]])
+    line1 = Line([[0.0, 0.0], [1.1, 1.1]])
+    line2 = Line([[0.0, 1.0], [1.0, 0.0]])
 
     intersects = line1.intersects(line2)
     print("{} is in intersection with {}: {}".format(line1, line2, intersects))
@@ -20,8 +20,8 @@ def main():
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
-    line1 = line.Line([[0.0, 0.0], [1.1, 1.1]])
-    line2 = line.Line([[0.0, 1.0], [1.1, 2.1]])
+    line1 = Line([[0.0, 0.0], [1.1, 1.1]])
+    line2 = Line([[0.0, 1.0], [1.1, 2.1]])
     full = line1.intersects(line2, _full=True)
     print("full info of intersection of {} and {}\n"
           "     defined infinite lines intersects: {}\n"
@@ -31,8 +31,8 @@ def main():
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
-    line1 = line.Line([[0.0, 0.0], [1.1, 1.1]])
-    line2 = line.Line([[0.0, 0.0], [2.1, 2.1]])
+    line1 = Line([[0.0, 0.0], [1.1, 1.1]])
+    line2 = Line([[0.0, 0.0], [2.1, 2.1]])
     full = line1.intersects(line2, _full=True)
     print("full info of intersection of {} and {}\n"
           "     defined infinite lines intersects: {}\n"
@@ -42,8 +42,8 @@ def main():
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
-    line1 = line.Line([[0.0, 0.0], [1.1, 1.1]])
-    line2 = line.Line([[1.2, 1.2], [2.1, 2.1]])
+    line1 = Line([[0.0, 0.0], [1.1, 1.1]])
+    line2 = Line([[1.2, 1.2], [2.1, 2.1]])
     full = line1.intersects(line2, _full=True)
     print("full info of intersection of {} and {}\n"
           "     defined infinite lines intersects: {}\n"

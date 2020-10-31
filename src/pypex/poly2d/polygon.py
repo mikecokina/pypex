@@ -56,5 +56,9 @@ class Polygon(shape.Shape2D):
         return Polygon(intersection_poly, _validity=False) if len(intersection_poly) > 2 else None
 
     def surface_area(self):
+        """
+        Compute surface area of given polygon instance.
+        :return: float; surface area of given polygon
+        """
         lines = linter.polygon_hull_to_edges(self.hull)
         return 0.5 * np.abs(np.sum(lines[:, 0, 0] * lines[:, 1, 1] - lines[:, 1, 0] * lines[:, 0, 1]))
