@@ -16,7 +16,7 @@ def main():
         from matplotlib.patches import Polygon as polyg
         from matplotlib.collections import PatchCollection
 
-        ig, ax = plt.subplots()
+        fig, ax = plt.subplots()
         patches = [polyg(poly1.hull, True), polyg(poly2.hull, True)]
         p = PatchCollection(patches, cmap=matplotlib.cm.jet, alpha=0.4)
         colors = 100 * np.random.rand(len(patches))

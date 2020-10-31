@@ -1,15 +1,4 @@
-import matplotlib as mpl
-import numpy as np
 from pypex import Point, Polygon
-from matplotlib import pyplot as plt
-from matplotlib.patches import Polygon as polyg
-from matplotlib.collections import PatchCollection
-
-# mpl rcParams
-params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
-mpl.rcParams.update(params)
-
-fig, ax = plt.subplots(nrows=1, ncols=1)
 
 
 def main():
@@ -18,16 +7,28 @@ def main():
     in_poly = point.is_inside_polygon(polygon)
     print("{} is inside polygon: {}".format(point, in_poly))
 
-    patches = [polyg(polygon.hull, True), polyg(polygon.hull, True)]
-    p = PatchCollection(patches, cmap=mpl.cm.jet, alpha=0.4, edgecolors="k", facecolors="g")
-    # p.set_array(np.array([10, 0, 0, 0, 1]))
-    ax.add_collection(p)
-    ax.scatter(point.to_array().T[0], point.to_array().T[1], s=50, c="r", marker="x")
+    try:
+        import matplotlib as mpl
+        from matplotlib import pyplot as plt
+        from matplotlib.patches import Polygon as polyg
+        from matplotlib.collections import PatchCollection
 
-    plt.xlim(-0.2, 1.2)
-    plt.ylim(-0.2, 1.2)
-    plt.show()
+        # mpl rcParams
+        params = {'legend.fontsize': 8, 'legend.handlelength': 0.5, "font.size": 8}
+        mpl.rcParams.update(params)
 
+        fig, ax = plt.subplots(nrows=1, ncols=1)
+        patches = [polyg(polygon.hull, True), polyg(polygon.hull, True)]
+        p = PatchCollection(patches, cmap=mpl.cm.jet, alpha=0.4, edgecolors="k", facecolors="g")
+        # p.set_array(np.array([10, 0, 0, 0, 1]))
+        ax.add_collection(p)
+        ax.scatter(point.to_array().T[0], point.to_array().T[1], s=50, c="r", marker="x")
+
+        plt.xlim(-0.2, 1.2)
+        plt.ylim(-0.2, 1.2)
+        plt.show()
+    except ImportError:
+        pass
 
     pnt_array = point.to_array()
     print("Point as numpy array {}".format(pnt_array))

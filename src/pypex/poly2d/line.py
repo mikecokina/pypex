@@ -1,3 +1,5 @@
+import numpy as np
+
 from pypex.base import shape
 from pypex.poly2d.intersection import linter
 from pypex.base.conf import ROUND_PRECISION
@@ -61,12 +63,19 @@ class Line(shape.Shape2D):
             return
         return intersection[2]
 
+    def to_array(self):
+        """
+        Get points of line in numpy array.
+        :return: numpy.array;
+        """
+        return np.array([point.to_array() for point in self.to_Points()])
+
     def sort_clockwise(self, *args, **kwargs):
         return self.hull
 
     def direction_vector(self):
         """
-        Get
+        Get direction vector.
         :return: numpy.array;
         """
         return self.hull[1] - self.hull[0]

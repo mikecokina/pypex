@@ -2,7 +2,6 @@ import numpy as np
 
 from abc import ABCMeta, abstractmethod
 from collections import Iterable
-from numpy import array
 from pypex.poly2d.point import Point
 
 
@@ -77,11 +76,14 @@ class Shape2D(metaclass=ABCMeta):
     def to_Points(self):
         return np.array([Point(*point) for point in self.hull])
 
+    # redefine to_Points also to lowercase
+    to_points = to_Points
+
     @staticmethod
     def validity_check(hull, length, _raise=True):
         length_test = (len(hull) == length) if length in [3, 2] else (len(hull) > length)
         try:
-            if length_test & (isinstance(hull, (Iterable, array))) & np.all(np.array([len(v) == 2 for v in hull])):
+            if length_test & (isinstance(hull, (Iterable, np.ndarray))) & np.all(np.array([len(v) == 2 for v in hull])):
                 return True
         except TypeError:
             pass

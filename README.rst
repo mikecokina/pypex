@@ -47,7 +47,7 @@ Point vs Polygon interaction
 
 
 .. image:: ./docs/source/_static/pnt_vs_poly.svg
-  :width: 95%
+  :width: 60%
   :alt: pnt_vs_poly.svg
   :align: center
 
@@ -148,7 +148,6 @@ Line vs Line interaction
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
-
 **[Out]**::
 
     full info of intersection of Line: [[0. 0.], [1.1 1.1]] and Line: [[0. 1.], [1. 0.]]
@@ -158,6 +157,10 @@ Line vs Line interaction
         defined segments distance nan
         defined segments description INTERSECT
 
+.. image:: ./docs/source/_static/ln_vs_ln_00.svg
+  :width: 60%
+  :alt: ln_vs_ln_00.svg
+  :align: center
 
 **[In]**
 
@@ -183,6 +186,10 @@ Line vs Line interaction
         defined segments distance 0.7071067811865476
         defined segments description PARALLEL
 
+.. image:: ./docs/source/_static/ln_vs_ln_01.svg
+  :width: 60%
+  :alt: ln_vs_ln_01.svg
+  :align: center
 
 **[In]**
 
@@ -208,6 +215,11 @@ Line vs Line interaction
         defined segments distance 0.0
         defined segments description OVERLAP
 
+.. image:: ./docs/source/_static/ln_vs_ln_02.svg
+  :width: 60%
+  :alt: ln_vs_ln_02.svg
+  :align: center
+
 **[In]**
 
 .. code-block:: python
@@ -231,3 +243,8 @@ Line vs Line interaction
         defined segments intersects in nan
         defined segments distance 0.0
         defined segments description OVERLAP
+
+.. image:: ./docs/source/_static/ln_vs_ln_03.svg
+  :width: 60%
+  :alt: ln_vs_ln_03.svg
+  :align: center
