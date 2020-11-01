@@ -2,7 +2,6 @@ import numpy as np
 
 from abc import ABCMeta, abstractmethod
 from collections import Iterable
-from numpy import array
 from pypex.poly2d.point import Point
 
 
@@ -48,7 +47,7 @@ class Shape2D(metaclass=ABCMeta):
 
     @hull.setter
     def hull(self, hull):
-        self._hull = hull
+        self._hull = np.array(hull)
 
     @abstractmethod
     def intersects(self, shape, **kwargs):
@@ -77,11 +76,14 @@ class Shape2D(metaclass=ABCMeta):
     def to_Points(self):
         return np.array([Point(*point) for point in self.hull])
 
+    def to_array(self):
+        return np.array(self._hull)
+
     @staticmethod
     def validity_check(hull, length, _raise=True):
         length_test = (len(hull) == length) if length in [3, 2] else (len(hull) > length)
         try:
-            if length_test & (isinstance(hull, (Iterable, array))) & np.all(np.array([len(v) == 2 for v in hull])):
+            if length_test & (isinstance(hull, (Iterable, np.ndarray))) & np.all(np.array([len(v) == 2 for v in hull])):
                 return True
         except TypeError:
             pass
@@ -92,3 +94,13 @@ class Shape2D(metaclass=ABCMeta):
     @classmethod
     def polygon_validity_check(cls, hull, _raise=True):
         return cls.validity_check(hull, 1, _raise)
+
+    @property
+    def transpose(self):
+        """
+        Transpose self._hull and return numpy.array.
+        :return: numpy.array
+        """
+        return self._hull.T
+
+    T = transpose

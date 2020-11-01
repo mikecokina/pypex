@@ -16,10 +16,11 @@ here = path.dirname(__file__)
 
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+    long_description = "For more info visit https://github.com/mikecokina/pypex/blob/dev/README.rst"
 
 setup(
     name='pypex',
+    src_root='src',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -45,7 +46,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -58,6 +59,8 @@ setup(
         # that you indicate whether you support Python 2, Python 3 or both.
         # 'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 
     # What does your project relate to?
@@ -65,7 +68,7 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(where='src'),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
@@ -76,7 +79,8 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'numpy'
+        'numpy>=1.19.2',
+        'matplotlib>=3.3.2'
         ],
 
     # List additional groups of dependencies here (e.g. development

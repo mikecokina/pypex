@@ -21,12 +21,12 @@ def det_2d(matrix):
 
 def multiple_determinants(matrix):
     """
-    calculates 2D determinant on every level of given 3D matrix
+    Calculates 2D determinant on every level of given 3D matrix.
+    :param matrix: np.array (Nx2x2), where i-th slice looks like::
 
-    :param matrix: np.array (Nx2x2), where i-th slice looks like:
-                                    [[xi1, yi1],
-                                     [xi2, yi2]]
-    :return: np.array - N-dim vector where each element is 2D determinant of 2 2D vectors stored on given level in
-                        `matrix`
+        [[xi1, yi1], [xi2, yi2]]
+
+    :return: numpy.array; N-dim vector where each element is 2D determinant of
+                          2 2D vectors stored on given level in `matrix`
     """
     return matrix[:, 0, 0] * matrix[:, 1, 1] - matrix[:, 0, 1] * matrix[:, 1, 0]

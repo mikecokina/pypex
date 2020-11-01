@@ -1,2 +1,6 @@
 include version.py
 include README.rst
+include setup.cfg
+include setup.py
+include CHANGELOG.md
+include LICENSE

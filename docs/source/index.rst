@@ -17,4 +17,4 @@ Module Index
    :glob:
    :maxdepth: 5
 
-   api_doc/*
+   api_docs/*
