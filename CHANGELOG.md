@@ -12,6 +12,8 @@
 
 ## [v0.2.0]()
 
+**Release date:** 2020-11-01
+
 ### Features
     
     - inerpolygon - find polygon which points are defind as center of each edge of original polygon

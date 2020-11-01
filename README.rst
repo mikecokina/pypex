@@ -3,7 +3,7 @@
 .. |Travis build| image:: https://travis-ci.org/mikecokina/pypex.svg?branch=dev
     :target: https://travis-ci.org/mikecokina/pypex
 
-.. |GitHub version| image:: https://img.shields.io/badge/version-0.2.0.dev0-yellow.svg
+.. |GitHub version| image:: https://img.shields.io/badge/version-0.2.0-yellow.svg
    :target: https://github.com/Naereen/StrapDown.js
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.6|3.7|3.8-orange.svg
@@ -41,6 +41,7 @@ Point vs Polygon interaction
 
     point = Point(0.3, 0.3)
     polygon = Polygon([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+    # You can also use .contains_point() in case of Polygon instance.
     in_poly = point.is_inside_polygon(polygon)
     print(f"{point} is inside polygon: {in_poly}")
 

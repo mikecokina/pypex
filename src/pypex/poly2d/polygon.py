@@ -4,6 +4,7 @@ import matplotlib.path as mpltpath
 from pypex.base import shape
 from pypex.poly2d.intersection import sat, linter
 from pypex.poly2d.point import Point
+from pypex.poly2d.point import is_point_in_polygon
 from pypex.poly2d.line import Line
 from pypex.base.conf import ROUND_PRECISION
 
@@ -62,6 +63,17 @@ class Polygon(shape.Shape2D):
 
     def to_array(self):
         return self.hull
+
+    def contains_point(self, point):
+        """
+        Test wether point lie in polygon.
+
+        :param point: pypex.poly2d.point.Point
+        :return:
+        """
+        return is_point_in_polygon(point, self)
+
+    contains_Point = contains_point
 
     def surface_area(self):
         """
