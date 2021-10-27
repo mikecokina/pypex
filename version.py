@@ -1,5 +1,5 @@
 def get_version():
-    return "0.2.0"
+    return "0.2.1"
 
 
 if __name__ == '__main__':

@@ -131,9 +131,9 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
     # mask to origin
     idx_mask = _index_map(m1, m2)
 
-    intersection_status, intersection_segment = np.zeros(m1 * m2, dtype=np.bool), np.zeros(m1 * m2, dtype=np.bool)
-    intr_ptx = np.full_like(np.empty((m1 * m2, 2), dtype=np.float), np.nan)
-    distance = np.full_like(np.empty(m1 * m2, dtype=np.float), np.nan)
+    intersection_status, intersection_segment = np.zeros(m1 * m2, dtype=bool), np.zeros(m1 * m2, dtype=bool)
+    intr_ptx = np.full_like(np.empty((m1 * m2, 2), dtype=float), np.nan)
+    distance = np.full_like(np.empty(m1 * m2, dtype=float), np.nan)
 
     msg = np.chararray(m1 * m2, itemsize=9)
 
@@ -168,7 +168,7 @@ def intersections(poly1, poly2, in_touch=False, tol=PRECISION, round_tol=ROUND_P
         dist = np.abs(c2 - c1) / (np.sqrt(np.power(a1, 2) + np.sqrt(np.power(b1, 2))))
         # fill output
         distance[non_intersections] = dist
-        msg[non_intersections] = np.str('PARALLEL')
+        msg[non_intersections] = str('PARALLEL')
         overlaps = non_intersections.copy()
 
         overlaps[non_intersections] = np.abs(dist) < tol
