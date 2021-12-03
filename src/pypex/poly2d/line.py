@@ -88,3 +88,18 @@ class Line(shape.Shape2D):
             v = self.direction_vector()
             return self.hull[0][0] + (t * v[0]), self.hull[0][1] + (t * v[1])
         return _parametrized
+
+    def angle(self, other: shape.Shape2D, degrees=False):
+        """
+        Return angle between vectors defined by self `Line` and other 'Line'.
+        """
+        vector_self = self.hull[0] - self.hull[1]
+        vector_other = other.hull[0] - other.hull[1]
+
+        unit_vector_self = vector_self / np.linalg.norm(vector_self)
+        unit_vector_other = vector_other / np.linalg.norm(vector_other)
+        dot_product = np.dot(unit_vector_self, unit_vector_other)
+        angle = np.arccos(dot_product)
+        if degrees:
+            angle = np.degrees(angle)
+        return angle
