@@ -1,8 +1,13 @@
 import numpy as np
 
 from abc import ABCMeta, abstractmethod
-from collections import Iterable
 from pypex.poly2d.point import Point
+
+try:
+    # noinspection PyProtectedMember
+    from collections import Iterable
+except ImportError:
+    from typing import Iterable
 
 
 class Shape2D(metaclass=ABCMeta):
