@@ -1,4 +1,4 @@
-__version__ = "0.3.dev0"
+__version__ = "0.2.2"
 
 from pypex.poly2d.polygon import Point, Polygon
 from pypex.poly2d.line import Line

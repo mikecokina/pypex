@@ -1,21 +1,17 @@
-|Travis build|  |GitHub version|  |Licence GPLv2| |Python version| |OS|
+|GitHub version|  |Licence MIT| |Python version| |OS|
 
-.. |Travis build| image:: https://travis-ci.org/mikecokina/pypex.svg?branch=dev
-    :target: https://travis-ci.org/mikecokina/pypex
+.. |GitHub version| image:: https://img.shields.io/badge/version-0.2.2-yellow.svg
+   :target: https://github.com/mikecokina/pypex/tree/master
 
-.. |GitHub version| image:: https://img.shields.io/badge/version-0.2.1-yellow.svg
-   :target: https://github.com/Naereen/StrapDown.js
+.. |Python version| image:: https://img.shields.io/badge/python-3.6|3.7|3.8|3.9|3.10|3.11|3.12-orange.svg
+   :target: https://www.python.org/
 
-.. |Python version| image:: https://img.shields.io/badge/python-3.6|3.7|3.8|3.9-orange.svg
-   :target: https://github.com/Naereen/StrapDown.js
-
-.. |Licence GPLv2| image:: https://img.shields.io/badge/license-MIT-blue.svg
-   :target: https://github.com/Naereen/StrapDown.js
+.. |Licence MIT| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: https://opensource.org/license/mit
 
 .. |OS| image:: https://img.shields.io/badge/os-Linux|Windows|macOS-magenta.svg
-   :target: https://github.com/Naereen/StrapDown.js
+   :target: https://en.wikipedia.org/wiki/Operating_system
 
-.. _example_scripts: https://github.com/mikecokina/elisa/tree/master/scripts/analytics
 
 Pypex
 =====

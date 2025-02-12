@@ -1,16 +1,24 @@
 # Change Log
 
-## [v0.1.0]()
+## [v0.2.2](https://github.com/mikecokina/pypex/tree/v0.2.2)
 
-### Features
-##### all in 2D
+**Release date:** 2025-02-12
 
-    - implementation of Polygon, Line and Point 
-    - implementation of SAT (separating axis theroem) algorithm
-    - implemnetaion of line intersection 
-    - implementation of polygon intersection
+### Enhancements
+    
+    - Python compatibility up to v3.12
 
-## [v0.2.0]()
+
+## [v0.2.1](https://github.com/mikecokina/pypex/tree/v0.2.1)
+
+**Release date:** 2021-10-27
+
+### Enhancements
+    
+    - Update of numpy version
+
+
+## [v0.2.0](https://github.com/mikecokina/pypex/tree/v0.2.0)
 
 **Release date:** 2020-11-01
 
@@ -27,3 +35,13 @@
 
 ### Upgrade notes
 
+
+## [v0.1.0](https://github.com/mikecokina/pypex/tree/v0.1.0)
+
+### Features
+##### all in 2D
+
+    - implementation of Polygon, Line and Point 
+    - implementation of SAT (separating axis theroem) algorithm
+    - implemnetaion of line intersection 
+    - implementation of polygon intersection
