@@ -1,5 +1,5 @@
-__version__ = "0.2.2"
+__version__ = "0.3.0"
 
-from pypex.poly2d.polygon import Point, Polygon
-from pypex.poly2d.line import Line
-from pypex.poly2d import projection
+from pypex.poly2d import projection  # noqa: F401
+from pypex.poly2d.line import Line  # noqa: F401
+from pypex.poly2d.polygon import Point, Polygon  # noqa: F401

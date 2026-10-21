@@ -1,47 +1,63 @@
-# Change Log
+# Changelog
 
-## [v0.2.2](https://github.com/mikecokina/pypex/tree/v0.2.2)
+All notable changes to this project are documented in this file.
 
-**Release date:** 2025-02-12
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Enhancements
-    
-    - Python compatibility up to v3.12
+## Unreleased
 
+## 0.3.0
 
-## [v0.2.1](https://github.com/mikecokina/pypex/tree/v0.2.1)
+### Added
 
-**Release date:** 2021-10-27
+- Added type annotations and docstrings across the package.
+- Added `pypex.base.types` with shared type aliases.
+- Added `Shape2D.__hash__`.
+- Added `sat` unit tests and regression tests for parallel and collinear segments.
+- Added support for Python 3.13 and 3.14.
 
-### Enhancements
-    
-    - Update of numpy version
+### Changed
 
+- Renamed the `in_touch` parameter to `touch_is_separated` with the opposite meaning: `True` now treats touching as separated. `Line.intersects()` and `Line.intersection()` default to `touch_is_separated=True`, matching the previous `in_touch=False`; the other functions default to `False`.
+- Made optional parameters keyword-only, including `touch_is_separated`, `tol`, `round_tol`, `inplace`, `_full` and `_validity`.
+- Renamed the collinear segment description from `OVERLAP` to `COLINEAR`.
+- Dropped support for Python 3.10 and older; supported versions are 3.11 to 3.14.
+- Raised the minimum NumPy to 1.23.2 (2.3.2 on Python 3.14) and matplotlib to 3.6.0 (3.10.6 on Python 3.14).
 
-## [v0.2.0](https://github.com/mikecokina/pypex/tree/v0.2.0)
+### Fixed
 
-**Release date:** 2020-11-01
+- Corrected vectorized parallel-segment distance in `intersections()`: the denominator was `sqrt(a1^2 + sqrt(b1^2))` instead of `sqrt(a1^2 + b1^2)`; it now uses `np.hypot(a1, b1)`.
+- Corrected collinear segment overlap detection in `separating_axis_theorem_line_adapt()`: projected intervals are now ordered, so segments with opposite directions are detected as overlapping.
+- Replaced 2D `np.cross`, which is unsupported in NumPy 2.5, in `point._line_side()`.
 
-### Features
-    
-    - inerpolygon - find polygon which points are defind as center of each edge of original polygon
-    - line parametrization method
+## 0.2.2 - 2025-02-12
 
-### Enhancements
-    
-    - support transpose of Shape2D (.T) for simplier interaction with raw points
+### Changed
 
-### Fixes
+- Updated Python compatibility through Python 3.12.
 
-### Upgrade notes
+## 0.2.1 - 2021-10-27
 
+### Changed
 
-## [v0.1.0](https://github.com/mikecokina/pypex/tree/v0.1.0)
+- Updated the NumPy version.
 
-### Features
-##### all in 2D
+## 0.2.0 - 2020-11-01
 
-    - implementation of Polygon, Line and Point 
-    - implementation of SAT (separating axis theroem) algorithm
-    - implemnetaion of line intersection 
-    - implementation of polygon intersection
+### Added
+
+- Added `inerpolygon` to find polygons whose points are the centers of the original polygon's edges.
+- Added a line parametrization method.
+
+### Changed
+
+- Added support for transposing `Shape2D` (`.T`) to simplify interaction with raw points.
+
+## 0.1.0
+
+### Added
+
+- Added 2D `Polygon`, `Line`, and `Point` implementations.
+- Added the 2D separating axis theorem (SAT) algorithm.
+- Added line and polygon intersection implementations.

@@ -15,8 +15,8 @@ from version import get_version
 here = path.dirname(__file__)
 
 # Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = "For more info visit https://github.com/mikecokina/pypex/blob/dev/README.rst"
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = "For more info visit https://github.com/mikecokina/pypex/blob/dev/README.md"
 
 setup(
     name='pypex',
@@ -59,13 +59,10 @@ setup(
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
         # 'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
     ],
 
     # What does your project relate to?
@@ -83,9 +80,12 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
+    python_requires='>=3.11',
     install_requires=[
-        'numpy>=1.19.2',
-        'matplotlib>=3.3.2'
+        'numpy>=1.23.2; python_version < "3.14"',
+        'numpy>=2.3.2; python_version >= "3.14"',
+        'matplotlib>=3.6.0; python_version < "3.14"',
+        'matplotlib>=3.10.6; python_version >= "3.14"'
         ],
 
     # List additional groups of dependencies here (e.g. development
