@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## 0.3.0
+## 0.3.0dev0
 
 ### Added
 
+- Added `Polygon.intersection_area(poly, method=IntersectionAreaMethod.SUTHERLAND_HODGMAN)` to compute convex polygon intersection areas using independent float64 Sutherland-Hodgman clipping and the shoelace formula, without coordinate rounding or epsilon thresholds.
+- Added the public `IntersectionAreaMethod` string enum, exported from `pypex`; equivalent string values remain supported.
+- Added `method=IntersectionAreaMethod.LEGACY` to calculate area through the existing `Polygon.intersection()` implementation; unknown method names raise `ValueError`.
+- Added analytic and numerical regression tests covering touching, containment, collinear edges, vertex orderings, tiny overlaps, nearly parallel edges, transformations, symmetry and input preservation.
+- Added standalone intersection-area benchmarks and documentation with usage examples, measured speedups and numerical limitations, including known legacy discrepancies at small scales and large coordinate offsets.
 - Added type annotations and docstrings across the package.
 - Added `pypex.base.types` with shared type aliases.
 - Added `Shape2D.__hash__`.

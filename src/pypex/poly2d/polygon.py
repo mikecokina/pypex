@@ -7,7 +7,8 @@ import numpy as np
 
 from pypex.base import shape
 from pypex.base.conf import ROUND_PRECISION
-from pypex.poly2d.intersection import linter, sat
+from pypex.poly2d.intersection import clipping, linter, sat
+from pypex.poly2d.intersection.enums import IntersectionAreaMethod
 from pypex.poly2d.line import Line
 from pypex.poly2d.point import Point, is_point_in_polygon
 
@@ -106,6 +107,33 @@ class Polygon(shape.Shape2D):
         # np.unique sorts rows, which is fine: Polygon.__init__ re-sorts clockwise.
         all_pts = np.unique(np.round(all_pts, round_tol), axis=0)
         return Polygon(all_pts, _validity=False) if len(all_pts) >= MIN_POLY_POINTS else None
+
+    def intersection_area(
+            self,
+            poly: Polygon,
+            method: IntersectionAreaMethod | str = IntersectionAreaMethod.SUTHERLAND_HODGMAN,
+    ) -> float:
+        """Return the intersection area of two convex polygons.
+
+        :param poly: Another convex polygon.
+        :param method: ``IntersectionAreaMethod.SUTHERLAND_HODGMAN`` (default) clips raw float64
+            vertices and applies the shoelace formula without rounding.
+            ``IntersectionAreaMethod.LEGACY`` uses :meth:`intersection` with its default rounding
+            and then :meth:`surface_area`. Equivalent string values are accepted.
+        :return: Nonnegative area; empty and zero-area intersections give 0.0.
+        :rtype: float
+        :raises ValueError: If the method name is unknown.
+
+        The clipping method accepts either cyclic winding and does not modify
+        either polygon. Floating-point roundoff still applies, especially near
+        coincident edges or at extreme coordinate scales.
+        """
+        if method == IntersectionAreaMethod.SUTHERLAND_HODGMAN:
+            return clipping.intersection_area(self.hull, poly.hull)
+        if method == IntersectionAreaMethod.LEGACY:
+            result = self.intersection(poly)
+            return 0.0 if result is None else float(result.surface_area())
+        raise ValueError(f"Unknown intersection area method: {method!r}")
 
     def to_array(self) -> np.ndarray:
         """Return the hull as a numpy array.

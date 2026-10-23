@@ -1,4 +1,4 @@
-[![GitHub version](https://img.shields.io/badge/version-0.3.0-yellow.svg)](https://github.com/mikecokina/pypex/tree/master)
+[![GitHub version](https://img.shields.io/badge/version-0.3.0dev0-yellow.svg)](https://github.com/mikecokina/pypex/tree/master)
 [![Licence MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/license/mit)
 [![Python version](https://img.shields.io/badge/python-3.11%7C3.12%7C3.13%7C3.14-orange.svg)](https://www.python.org/)
 [![OS](https://img.shields.io/badge/os-Linux%7CWindows%7CmacOS-magenta.svg)](https://en.wikipedia.org/wiki/Operating_system)
@@ -321,6 +321,43 @@ inpolygon = poly.inpolygon()
 ```
 
 <p align="center"><img src="docs/source/_static/inpolygon.svg" alt="inpolygon.svg" width="50%"></p>
+
+### Polygon intersection area
+
+Use `intersection_area()` when only the common area of two convex polygons is needed:
+
+```python
+from pypex import IntersectionAreaMethod, Polygon
+
+a = Polygon([[0, 0], [2, 0], [2, 2], [0, 2]])
+b = Polygon([[1, 0.5], [3, 0.5], [3, 2.5], [1, 2.5]])
+
+print(a.intersection_area(b))  # 1.5 (default: sutherland_hodgman)
+print(a.intersection_area(b, method=IntersectionAreaMethod.SUTHERLAND_HODGMAN))  # 1.5
+print(a.intersection_area(b, method=IntersectionAreaMethod.LEGACY))  # 1.5
+```
+
+- `IntersectionAreaMethod.SUTHERLAND_HODGMAN` independently clips the first convex hull against every
+  edge of the second, then applies the shoelace formula. It uses float64
+  arithmetic without coordinate rounding or epsilon thresholds, and accepts
+  either cyclic winding. Constructor inputs are sorted by the existing API.
+- `IntersectionAreaMethod.LEGACY` calls the existing `intersection()` with its defaults and computes
+  the resulting polygon's `surface_area()`. It retains the existing rounding
+  to ten decimal places and the fixed parallel-line determinant threshold.
+
+Both methods return a Python `float`, with `0.0` for empty or zero-area
+intersections (including edge and vertex touching), and leave inputs unchanged.
+Equivalent strings (`"sutherland_hodgman"` and `"legacy"`) are also accepted.
+Unknown method names raise `ValueError`. Existing `intersection()` and
+`intersects()` behavior is unchanged.
+
+Float64 clipping is not exact arithmetic: near-boundary classification and very
+small overlaps can be affected by roundoff, and geometry below the resolution of
+input coordinates cannot be recovered. Extremely large or small magnitudes can
+overflow or underflow. The default method shifts coordinates locally to reduce
+area cancellation; it does not clamp results to a tolerance or to input areas.
+The legacy method can lose small overlaps or suffer cancellation at large
+coordinate offsets. See [benchmarks and numerical examples](benchmarks/README.md).
 
 ### Projections
 

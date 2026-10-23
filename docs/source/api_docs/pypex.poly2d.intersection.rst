@@ -4,6 +4,14 @@ pypex.poly2d.intersection package
 Submodules
 ----------
 
+pypex.poly2d.intersection.enums module
+------------------------------------
+
+.. automodule:: pypex.poly2d.intersection.enums
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 pypex.poly2d.intersection.linter module
 ---------------------------------------
 
