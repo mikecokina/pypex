@@ -10,6 +10,21 @@ It gives you a strong and simple tool if you need determine properties such as s
 defined by points, find if two lopygons intersects each other or determine polygon in which other two defined
 polygons intersects.
 
+## Python compatibility
+
+Verified with Pypex **0.3.0dev0** on Linux in fresh virtual environments.
+Each environment passed the full test suite, package installation and `pip check`.
+
+| Python      | NumPy | Matplotlib | Unit tests  | Dependency check |
+|:------------|:------|:-----------|:-----------:|:----------------:|
+| **3.11.15** | 2.4.6 | 3.11.2     | ✅ 118 / 118 |     ✅ Passed     |
+| **3.12.3**  | 2.5.4 | 3.11.2     | ✅ 118 / 118 |     ✅ Passed     |
+| **3.13.14** | 2.5.4 | 3.11.2     | ✅ 118 / 118 |     ✅ Passed     |
+| **3.14.6**  | 2.5.4 | 3.11.2     | ✅ 118 / 118 |     ✅ Passed     |
+
+These are verified dependency combinations; minimum supported versions are
+specified in `setup.py`.
+
 ## Examples
 
 In this sections are shown several examples of `pypex` usage.
