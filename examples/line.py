@@ -16,7 +16,7 @@ def main():
           "     defined infinite lines intersects: {}\n"
           "     defined segments intersects: {}\n"
           "     defined segments intersects in {}\n"
-          "     defined segments distance {}\n"
+          "     defined infinite lines distance {}\n"
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
@@ -45,7 +45,7 @@ def main():
           "     defined infinite lines intersects: {}\n"
           "     defined segments intersects: {}\n"
           "     defined segments intersects in {}\n"
-          "     defined segments distance {}\n"
+          "     defined infinite lines distance {}\n"
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
@@ -73,7 +73,7 @@ def main():
           "     defined infinite lines intersects: {}\n"
           "     defined segments intersects: {}\n"
           "     defined segments intersects in {}\n"
-          "     defined segments distance {}\n"
+          "     defined infinite lines distance {}\n"
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 
@@ -101,7 +101,7 @@ def main():
           "     defined infinite lines intersects: {}\n"
           "     defined segments intersects: {}\n"
           "     defined segments intersects in {}\n"
-          "     defined segments distance {}\n"
+          "     defined infinite lines distance {}\n"
           "     defined segments description {}\n"
           "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 

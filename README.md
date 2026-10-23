@@ -96,6 +96,10 @@ Points [Point [0.3456111, 0.3123], Point [0.3456, 0.3123]] define following set 
 
 ### Line vs Line interaction
 
+In the full intersection output, `full[3]` is the perpendicular distance between
+the infinite lines when they are parallel (`0.0` for collinear lines), and `nan`
+otherwise. It is not the minimum distance between the finite segments.
+
 **[In]**
 
 ```python
@@ -136,7 +140,7 @@ print("full info of intersection of {} and {}\n"
       "     defined infinite lines intersects: {}\n"
       "     defined segments intersects: {}\n"
       "     defined segments intersects in {}\n"
-      "     defined segments distance {}\n"
+      "     defined infinite lines distance {}\n"
       "     defined segments description {}\n"
       "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 ```
@@ -148,7 +152,7 @@ full info of intersection of Line: [[0. 0.], [1.1 1.1]] and Line: [[0. 1.], [1. 
     defined infinite lines intersects: True
     defined segments intersects: True
     defined segments intersects in Point [0.5, 0.5]
-    defined segments distance nan
+    defined infinite lines distance nan
     defined segments description INTERSECT
 ```
 
@@ -164,7 +168,7 @@ print("full info of intersection of {} and {}\n"
       "     defined infinite lines intersects: {}\n"
       "     defined segments intersects: {}\n"
       "     defined segments intersects in {}\n"
-      "     defined segments distance {}\n"
+      "     defined infinite lines distance {}\n"
       "     defined segments description {}\n"
       "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 ```
@@ -176,7 +180,7 @@ full info of intersection of Line: [[0. 0.], [1.1 1.1]] and Line: [[0. 1.], [1.1
     defined infinite lines intersects: False
     defined segments intersects: False
     defined segments intersects in nan
-    defined segments distance 0.7071067811865476
+    defined infinite lines distance 0.7071067811865476
     defined segments description PARALLEL
 ```
 
@@ -192,7 +196,7 @@ print("full info of intersection of {} and {}\n"
       "     defined infinite lines intersects: {}\n"
       "     defined segments intersects: {}\n"
       "     defined segments intersects in {}\n"
-      "     defined segments distance {}\n"
+      "     defined infinite lines distance {}\n"
       "     defined segments description {}\n"
       "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 ```
@@ -204,7 +208,7 @@ full info of intersection of Line: [[0. 0.], [1.1 1.1]] and Line: [[0. 0.], [2.1
     defined infinite lines intersects: True
     defined segments intersects: True
     defined segments intersects in nan
-    defined segments distance 0.0
+    defined infinite lines distance 0.0
     defined segments description COLINEAR
 ```
 
@@ -220,7 +224,7 @@ print("full info of intersection of {} and {}\n"
       "     defined infinite lines intersects: {}\n"
       "     defined segments intersects: {}\n"
       "     defined segments intersects in {}\n"
-      "     defined segments distance {}\n"
+      "     defined infinite lines distance {}\n"
       "     defined segments description {}\n"
       "".format(line1, line2, full[0], full[1], full[2], full[3], full[4]))
 ```
@@ -232,7 +236,7 @@ full info of intersection of Line: [[0. 0.], [1.1 1.1]] and Line: [[1.2 1.2], [2
     defined infinite lines intersects: True
     defined segments intersects: False
     defined segments intersects in nan
-    defined segments distance 0.0
+    defined infinite lines distance 0.0
     defined segments description COLINEAR
 ```
 
