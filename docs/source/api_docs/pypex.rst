@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    pypex.base
    pypex.poly2d
@@ -17,15 +18,13 @@ pypex.utils module
 
 .. automodule:: pypex.utils
    :members:
-   :undoc-members:
    :show-inheritance:
-
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pypex
    :members:
-   :undoc-members:
    :show-inheritance:
-   :noindex:
+   :undoc-members:

@@ -3,7 +3,7 @@ from enum import StrEnum
 
 
 class IntersectionAreaMethod(StrEnum):
-    """Supported algorithms for :meth:`Polygon.intersection_area`."""
+    """Supported algorithms for :meth:`~pypex.poly2d.polygon.Polygon.intersection_area`."""
 
     SUTHERLAND_HODGMAN = "sutherland_hodgman"
     LEGACY = "legacy"

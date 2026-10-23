@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated documentation builds to Sphinx 9.1 (Python 3.12+), fixed source-path resolution and API navigation, regenerated the API reference and documented builds with warnings treated as errors.
 - Renamed the `in_touch` parameter to `touch_is_separated` with the opposite meaning: `True` now treats touching as separated. `Line.intersects()` and `Line.intersection()` default to `touch_is_separated=True`, matching the previous `in_touch=False`; the other functions default to `False`.
 - Made optional parameters keyword-only, including `touch_is_separated`, `tol`, `round_tol`, `inplace`, `_full` and `_validity`.
 - Renamed the collinear segment description from `OVERLAP` to `COLINEAR`.

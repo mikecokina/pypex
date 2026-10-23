@@ -25,9 +25,15 @@ Each environment passed the full test suite, package installation and `pip check
 These are verified dependency combinations; minimum supported versions are
 specified in `setup.py`.
 
+## Documentation
+
+The Sphinx API reference can be built locally with Python 3.12 or newer.
+See the [documentation build guide](docs/README.md) for environment setup,
+HTML builds with warnings treated as errors, and API reference regeneration.
+
 ## Examples
 
-In this sections are shown several examples of `pypex` usage.
+In these sections are shown several examples of `pypex` usage.
 
 ### Point vs Polygon interaction
 

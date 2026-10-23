@@ -2,8 +2,8 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
+SPHINXOPTS    ?= -W --keep-going
+SPHINXBUILD   ?= sphinx-build
 SPHINXPROJ    = pypex
 SOURCEDIR     = source
 BUILDDIR      = build

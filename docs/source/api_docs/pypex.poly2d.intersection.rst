@@ -4,35 +4,42 @@ pypex.poly2d.intersection package
 Submodules
 ----------
 
+pypex.poly2d.intersection.clipping module
+-----------------------------------------
+
+.. automodule:: pypex.poly2d.intersection.clipping
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 pypex.poly2d.intersection.enums module
-------------------------------------
+--------------------------------------
 
 .. automodule:: pypex.poly2d.intersection.enums
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 pypex.poly2d.intersection.linter module
 ---------------------------------------
 
 .. automodule:: pypex.poly2d.intersection.linter
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 pypex.poly2d.intersection.sat module
 ------------------------------------
 
 .. automodule:: pypex.poly2d.intersection.sat
    :members:
-   :undoc-members:
    :show-inheritance:
-
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: pypex.poly2d.intersection
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

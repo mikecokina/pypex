@@ -1,2 +1,4 @@
-Sphinx==2.2.0
-sphinx-rtd-theme==0.4.3
+# Documentation builds require Python >=3.12 (Sphinx 9.1).
+-r ../requirements.txt
+
+Sphinx==9.1.0
